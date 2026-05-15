@@ -9,9 +9,9 @@ template <typename T, typename Comp = std::less<T>>
 /*
  Uasge:
     1. Default is a max-heap:
-        PriorityQueue<int> pq;
+        PRIORITYQUEUE<int> pq;
     2. For a min-heap:
-        PriorityQueue<int, std::greater<int>> pq;
+        PRIORITYQUEUE<int, std::greater<int>> pq;
 
     All functions:
 + View elements: top()
@@ -22,7 +22,7 @@ template <typename T, typename Comp = std::less<T>>
 
 */
 
-struct PriorityQueue {
+struct PRIORITYQUEUE {
  private:
   std::vector<T> data;
   Comp cmp;
@@ -54,9 +54,9 @@ struct PriorityQueue {
   }
 
  public:
-  explicit PriorityQueue(Comp c = Comp{}) : cmp(c) {}
+  explicit PRIORITYQUEUE(Comp c = Comp{}) : cmp(c) {}
 
-  explicit PriorityQueue(const std::vector<T>& vec, Comp c = Comp{})
+  explicit PRIORITYQUEUE(const std::vector<T>& vec, Comp c = Comp{})
       : data(vec), cmp(c) {
     int n = (int)data.size();
     for (int i = n / 2 - 1; i >= 0; --i) heapifyDown(i);
@@ -70,7 +70,7 @@ struct PriorityQueue {
 
   // Remove elements
   void pop() {
-    if (empty()) throw std::runtime_error("PriorityQueue is empty");
+    if (empty()) throw std::runtime_error("PRIORITYQUEUE is empty");
 
     std::swap(data[0], data.back());
     data.pop_back();
@@ -80,7 +80,7 @@ struct PriorityQueue {
 
   // View elements
   const T& top() const {
-    if (empty()) throw std::runtime_error("PriorityQueue is empty");
+    if (empty()) throw std::runtime_error("PRIORITYQUEUE is empty");
     return data[0];
   }
 
