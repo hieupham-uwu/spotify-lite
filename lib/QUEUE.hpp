@@ -4,24 +4,21 @@
 #include "LinkedList.hpp"  // Assuming LinkedList is defined in LinkedList.hpp
 template <typename T>
 
-/*
-    All functions:
-+ View elements: top()
-+ Add elements: push()
-+ Remove elements: pop()
-+ Utility functions: getSize(), empty()
-*/
-
-class STACK {
+class QUEUE {
  private:
   LINKEDLIST<T> list;
 
  public:
-  STACK() = default;
-  ~STACK() = default;
+  QUEUE() = default;
+  ~QUEUE() = default;
   // View elements
-  T top() const {
-    if (list.empty()) throw std::runtime_error("Stack is empty");
+  T front() const {
+    if (list.empty()) throw std::runtime_error("Queue is empty");
+    return list.front();
+  }
+
+  T back() const {
+    if (list.empty()) throw std::runtime_error("Queue is empty");
     return list.back();
   }
 
@@ -30,8 +27,8 @@ class STACK {
 
   // Remove elements
   void pop() {
-    if (list.empty()) throw std::runtime_error("Stack is empty");
-    list.pop_back();
+    if (list.empty()) throw std::runtime_error("Queue is empty");
+    list.pop_front();
   }
 
   // Utility functions
