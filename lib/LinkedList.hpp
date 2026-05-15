@@ -13,7 +13,7 @@ template <typename T>
 + Special function: reverse()
 */
 
-class LinkedList {
+class LINKEDLIST {
  private:
   struct Node {
     T data;
@@ -25,8 +25,8 @@ class LinkedList {
   size_t size;
 
  public:
-  LinkedList() : head(nullptr), tail(nullptr), size(0) {}
-  ~LinkedList() {
+  LINKEDLIST() : head(nullptr), tail(nullptr), size(0) {}
+  ~LINKEDLIST() {
     while (head != nullptr) {
       Node* temp = head;
       head = head->next;
@@ -70,7 +70,7 @@ class LinkedList {
     ++size;
   }
 
-  void insert(LinkedList<T>::Node* node, const T& value) {
+  void insert(LINKEDLIST<T>::Node* node, const T& value) {
     if (node == nullptr) throw std::runtime_error("Node is null");
     Node* newNode = new Node(value);
     if (node == head) {
@@ -116,7 +116,7 @@ class LinkedList {
     --size;
   }
 
-  void erase(LinkedList<T>::Node* node) {
+  void erase(LINKEDLIST<T>::Node* node) {
     if (node == nullptr) throw std::runtime_error("Node is null");
     if (node == head) {
       pop_front();
