@@ -1,5 +1,5 @@
 #pragma once
-#include <stdexcept>  // throw std::runtime_error("...")
+#include <stdexcept>
 template <typename T>
 
 /*
@@ -11,6 +11,7 @@ template <typename T>
 + Utility functions: getSize(), empty()
 + Iterators: begin(), end(), rbegin(), rend()
 + Special function: reverse()
+
 */
 
 class LINKEDLIST {

@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 
-#include "LinkedList.hpp"  // Assuming LinkedList is defined in LinkedList.hpp
+#include "LinkedList.hpp"
 template <typename T>
 
 /*
@@ -10,6 +10,7 @@ template <typename T>
 + Add elements: push()
 + Remove elements: pop()
 + Utility functions: getSize(), empty()
+
 */
 
 class STACK {

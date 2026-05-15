@@ -1,8 +1,17 @@
 #pragma once
 #include <stdexcept>
 
-#include "LinkedList.hpp"  // Assuming LinkedList is defined in LinkedList.hpp
+#include "LinkedList.hpp"
 template <typename T>
+
+/*
+    All functions:
++ View elements: front(), back()
++ Add elements: push()
++ Remove elements: pop()
++ Utility functions: getSize(), empty()
+
+*/
 
 class QUEUE {
  private:
