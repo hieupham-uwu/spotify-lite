@@ -9,7 +9,8 @@ template <typename T>
 + View elements: front(), back()
 + Add elements: push()
 + Remove elements: pop()
-+ Utility functions: getSize(), empty()
++ Utility functions: size(), empty()
++ Clear the queue: clear()
 
 */
 
@@ -41,7 +42,9 @@ class QUEUE {
   }
 
   // Utility functions
-  size_t getSize() const { return list.getSize(); }
-
+  size_t size() const { return list.size(); }
   bool empty() const { return list.empty(); }
+
+  // Clear the queue
+  void clear() { list.clear(); }
 };

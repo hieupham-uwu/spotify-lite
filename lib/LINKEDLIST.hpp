@@ -3,13 +3,15 @@
 template <typename T>
 
 /*
+- Support deep copy constructor and assignment operator
   All functions:
-+ View elements: front(), back()
-+ Add elements: push_back(), push_front(), insert()
-+ Remove elements: pop_back(), pop_front(), erase()
++ View elements: front(), back(), find(value) => iterator or nullptr
++ Add elements: push_back(), push_front(), insert(it, value), insert(index,
+value)
++ Remove elements: pop_back(), pop_front(), erase(it), erase(index)
 + Clear the list: clear()
-+ Utility functions: getSize(), empty()
-+ Iterators: begin(), end(), rbegin(), rend()
++ Utility functions: size(), empty()
++ Iterators: begin(), end()
 + Special function: reverse()
 
 */
@@ -23,57 +25,119 @@ class LINKEDLIST {
   };
   Node* head;
   Node* tail;
-  size_t size;
+  size_t sizeLL;
 
  public:
-  LINKEDLIST() : head(nullptr), tail(nullptr), size(0) {}
-  ~LINKEDLIST() {
-    while (head != nullptr) {
-      Node* temp = head;
-      head = head->next;
-      delete temp;
+  class Iterator {
+    friend class LINKEDLIST;
+
+   private:
+    Node* current;
+
+   public:
+    explicit Iterator(Node* node) : current(node) {}
+
+    T& operator*() const {
+      if (current == nullptr)
+        throw std::runtime_error("Iterator out of bounds");
+      return current->data;
     }
-    head = tail = nullptr;
-    size = 0;
+    // Pre-increment ++iterator
+    Iterator& operator++() {
+      if (current == nullptr)
+        throw std::runtime_error("Iterator out of bounds");
+      current = current->next;
+      return *this;
+    }
+    // Post-increment iterator++
+    Iterator operator++(int) {
+      Iterator temp = *this;
+      ++(*this);
+      return temp;
+    }
+
+    bool operator!=(const Iterator& other) const {
+      return current != other.current;
+    }
+
+    bool operator==(const Iterator& other) const {
+      return current == other.current;
+    }
+  };
+
+  LINKEDLIST() : head(nullptr), tail(nullptr), sizeLL(0) {}
+  ~LINKEDLIST() { clear(); }
+
+  // Deep copy constructor
+  LINKEDLIST(const LINKEDLIST& other)
+      : head(nullptr), tail(nullptr), sizeLL(0) {
+    Node* current = other.head;
+    while (current != nullptr) {
+      push_back(current->data);
+      current = current->next;
+    }
+  }
+
+  LINKEDLIST& operator=(const LINKEDLIST& other) {
+    if (this == &other) return *this;
+    clear();
+
+    Node* current = other.head;
+    while (current != nullptr) {
+      push_back(current->data);
+      current = current->next;
+    }
+    return *this;
   }
 
   // View elements
   T front() const {
-    if (size == 0) throw std::runtime_error("List is empty");
+    if (sizeLL == 0) throw std::runtime_error("List is empty");
     return head->data;
   }
 
   T back() const {
-    if (size == 0) throw std::runtime_error("List is empty");
+    if (sizeLL == 0) throw std::runtime_error("List is empty");
     return tail->data;
+  }
+
+  Iterator find(const T& value) const {
+    Node* current = head;
+    while (current != nullptr) {
+      if (current->data == value) {
+        return Iterator(current);
+      }
+      current = current->next;
+    }
+    return end();  // Not found
   }
 
   // Add elements
   void push_back(const T& value) {
     Node* newNode = new Node(value);
-    if (size == 0) {
+    if (sizeLL == 0) {
       head = tail = newNode;
     } else {
       tail->next = newNode;
       tail = newNode;
     }
-    ++size;
+    ++sizeLL;
   }
 
   void push_front(const T& value) {
     Node* newNode = new Node(value);
-    if (size == 0) {
+    if (sizeLL == 0) {
       head = tail = newNode;
     } else {
       newNode->next = head;
       head = newNode;
     }
-    ++size;
+    ++sizeLL;
   }
 
-  void insert(LINKEDLIST<T>::Node* node, const T& value) {
+  void insert(Iterator it, const T& value) {
+    Node* node = it.current;
     if (node == nullptr) throw std::runtime_error("Node is null");
-    Node* newNode = new Node(value);
     if (node == head) {
       push_front(value);
       return;
@@ -83,15 +147,36 @@ class LINKEDLIST {
       current = current->next;
     }
     if (current == nullptr) throw std::runtime_error("Node not found");
+    Node* newNode = new Node(value);
     newNode->next = node;
     current->next = newNode;
-    ++size;
+    ++sizeLL;
+  }
+
+  void insert(size_t index, const T& value) {
+    if (index > sizeLL) throw std::runtime_error("Index out of bounds");
+    if (index == 0) {
+      push_front(value);
+      return;
+    }
+    if (index == sizeLL) {
+      push_back(value);
+      return;
+    }
+    Node* newNode = new Node(value);
+    Node* current = head;
+    for (size_t i = 0; i < index - 1; ++i) {
+      current = current->next;
+    }
+    newNode->next = current->next;
+    current->next = newNode;
+    ++sizeLL;
   }
 
   // Remove elements
   void pop_back() {
-    if (size == 0) throw std::runtime_error("List is empty");
-    if (size == 1) {
+    if (sizeLL == 0) throw std::runtime_error("List is empty");
+    if (sizeLL == 1) {
       delete head;
       head = tail = nullptr;
     } else {
@@ -103,21 +188,22 @@ class LINKEDLIST {
       tail = current;
       tail->next = nullptr;
     }
-    --size;
+    --sizeLL;
   }
 
   void pop_front() {
-    if (size == 0) throw std::runtime_error("List is empty");
+    if (sizeLL == 0) throw std::runtime_error("List is empty");
     Node* temp = head;
     head = head->next;
     delete temp;
     if (head == nullptr) {
       tail = nullptr;
     }
-    --size;
+    --sizeLL;
   }
 
-  void erase(LINKEDLIST<T>::Node* node) {
+  void erase(Iterator it) {
+    Node* node = it.current;
     if (node == nullptr) throw std::runtime_error("Node is null");
     if (node == head) {
       pop_front();
@@ -133,21 +219,46 @@ class LINKEDLIST {
       tail = current;
     }
     delete node;
-    --size;
+    --sizeLL;
+  }
+
+  void erase(size_t index) {
+    if (index >= sizeLL) throw std::runtime_error("Index out of bounds");
+    if (index == 0) {
+      pop_front();
+      return;
+    }
+    Node* current = head;
+    for (size_t i = 0; i < index - 1; ++i) {
+      current = current->next;
+    }
+    Node* temp = current->next;
+    current->next = temp->next;
+    if (temp == tail) {
+      tail = current;
+    }
+    delete temp;
+    --sizeLL;
   }
 
   // Clear the list
-  void clear() { ~*this; }
+  void clear() {
+    while (head != nullptr) {
+      Node* temp = head;
+      head = head->next;
+      delete temp;
+    }
+    head = tail = nullptr;
+    sizeLL = 0;
+  }
 
   // Utility functions
-  size_t getSize() const { return size; }
-  bool empty() const { return size == 0; }
+  size_t size() const { return sizeLL; }
+  bool empty() const { return sizeLL == 0; }
 
   // Iterator
-  Node* begin() const { return head; }
-  Node* end() const { return nullptr; }
-  Node* rbegin() const { return tail; }
-  Node* rend() const { return nullptr; }
+  Iterator begin() const { return Iterator(head); }
+  Iterator end() const { return Iterator(nullptr); }
 
   // Special function
   void reverse() {

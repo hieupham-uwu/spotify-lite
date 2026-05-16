@@ -7,7 +7,7 @@
 template <typename T, typename Comp = std::less<T>>
 
 /*
- Uasge:
+ Usage:
     1. Default is a max-heap:
         PRIORITYQUEUE<int> pq;
     2. For a min-heap:
@@ -22,7 +22,7 @@ template <typename T, typename Comp = std::less<T>>
 
 */
 
-struct PRIORITYQUEUE {
+class PRIORITYQUEUE {
  private:
   std::vector<T> data;
   Comp cmp;
