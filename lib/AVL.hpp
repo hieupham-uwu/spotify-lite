@@ -180,7 +180,6 @@ struct AVL {
   }
 
  public:
- 	
   // PART 2: PUBLIC API FUNCTIONS
 
   AVL() : root(nullptr) {}
@@ -196,4 +195,16 @@ struct AVL {
   void clear() { clearHelper(root); }
 
   bool empty() const { return root == nullptr; }
+
+  // ?? NEW EXTENSION FOR HASHTABLE COMPATIBILITY
+  // Searches the tree using a loop and returns a direct pointer to the data if found.
+  T* findData(const T& val) {
+    AVLNode<T>* current = root;
+    while (current != nullptr) {
+      if (val == current->data) return &(current->data);
+      if (val < current->data) current = current->left;
+      else current = current->right;
+    }
+    return nullptr; // Not found
+  }
 };
