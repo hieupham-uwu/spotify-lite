@@ -40,14 +40,11 @@ template <typename T>
 + Remove elements: remove()
 + Search elements: search()
 + Utility functions: clear(), empty()
-
 */
 
-struct AVL {
+class AVL {
  private:
   AVLNode<T>* root;
-
-  // PART 1: PRIVATE HELPER FUNCTIONS
 
   int getHeight(AVLNode<T>* node) const {
     return node ? node->height : 0;
@@ -58,12 +55,11 @@ struct AVL {
   }
 
   void update(AVLNode<T>* node) {
-    if (node != nullptr) {
+    if (node) {
       node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
     }
   }
 
-  // Rotates right to fix Left-Left (LL) imbalance
   void rightRotate(AVLNode<T>*& node) {
     AVLNode<T>* L = node->left;
     AVLNode<T>* rL = L->right;
@@ -74,10 +70,9 @@ struct AVL {
     update(node);
     update(L);
 
-    node = L; 
+    node = L;
   }
 
-  // Rotates left to fix Right-Right (RR) imbalance
   void leftRotate(AVLNode<T>*& node) {
     AVLNode<T>* R = node->right;
     AVLNode<T>* lR = R->left;
@@ -88,91 +83,71 @@ struct AVL {
     update(node);
     update(R);
 
-    node = R; 
+    node = R;
   }
 
-  // Evaluates balance factor and triggers required rotations
   void rebalance(AVLNode<T>*& node) {
-    if (node == nullptr) return;
+    if (!node) return;
 
     update(node);
     int balance = getBalance(node);
 
-    // Left-heavy cases
     if (balance > 1) {
       if (getBalance(node->left) < 0) {
-        leftRotate(node->left); // Left-Right (LR) Case
+        leftRotate(node->left);
       }
-      rightRotate(node); // Left-Left (LL) Case
-    }
-    // Right-heavy cases
-    else if (balance < -1) {
+      rightRotate(node);
+    } else if (balance < -1) {
       if (getBalance(node->right) > 0) {
-        rightRotate(node->right); // Right-Left (RL) Case
+        rightRotate(node->right);
       }
-      leftRotate(node); // Right-Right (RR) Case
+      leftRotate(node);
     }
   }
 
   void insertHelper(AVLNode<T>*& node, const T& val) {
-    if (node == nullptr) {
+    if (!node) {
       node = new AVLNode<T>(val);
       return;
     }
 
-    if (val < node->data) {
-      insertHelper(node->left, val);
-    } else if (val > node->data) {
-      insertHelper(node->right, val);
-    } else {
-      return; // Duplicates are not allowed
-    }
+    if (val < node->data) insertHelper(node->left, val);
+    else if (val > node->data) insertHelper(node->right, val);
+    else return;
 
     rebalance(node);
   }
 
-  AVLNode<T>* findMin(AVLNode<T>* node) const {
-    while (node != nullptr && node->left != nullptr) {
-      node = node->left;
-    }
-    return node;
-  }
-
   void removeHelper(AVLNode<T>*& node, const T& val) {
-    if (node == nullptr) return;
+    if (!node) return;
 
-    if (val < node->data) {
-      removeHelper(node->left, val);
-    } else if (val > node->data) {
-      removeHelper(node->right, val);
-    } else {
-      // Node to delete found
-      if (node->left == nullptr || node->right == nullptr) {
+    if (val < node->data) removeHelper(node->left, val);
+    else if (val > node->data) removeHelper(node->right, val);
+    else {
+      if (!node->left || !node->right) {
         AVLNode<T>* temp = node->left ? node->left : node->right;
         delete node;
         node = temp;
       } else {
-        // Node with two children
-        AVLNode<T>* temp = findMin(node->right);
+        AVLNode<T>* temp = node->right;
+        while (temp->left) temp = temp->left;
         node->data = temp->data;
         removeHelper(node->right, temp->data);
       }
     }
 
-    if (node == nullptr) return;
-
-    rebalance(node);
+    if (node) rebalance(node);
   }
 
   bool searchHelper(AVLNode<T>* node, const T& val) const {
-    if (node == nullptr) return false;
+    if (!node) return false;
     if (node->data == val) return true;
     if (val < node->data) return searchHelper(node->left, val);
     return searchHelper(node->right, val);
   }
 
   void clearHelper(AVLNode<T>*& node) {
-    if (node == nullptr) return;
+    if (!node) return;
     clearHelper(node->left);
     clearHelper(node->right);
     delete node;
@@ -180,31 +155,38 @@ struct AVL {
   }
 
  public:
-  // PART 2: PUBLIC API FUNCTIONS
-
   AVL() : root(nullptr) {}
-
   ~AVL() { clear(); }
 
   void insert(const T& val) { insertHelper(root, val); }
-
   void remove(const T& val) { removeHelper(root, val); }
-
   bool search(const T& val) const { return searchHelper(root, val); }
-
   void clear() { clearHelper(root); }
-
   bool empty() const { return root == nullptr; }
 
-  // ?? NEW EXTENSION FOR HASHTABLE COMPATIBILITY
-  // Searches the tree using a loop and returns a direct pointer to the data if found.
+  // ==========================
+  // EXTENSION FOR HASHTABLE
+  // ==========================
+
+  // Non-const version (can modify data)
   T* findData(const T& val) {
     AVLNode<T>* current = root;
-    while (current != nullptr) {
+    while (current) {
       if (val == current->data) return &(current->data);
       if (val < current->data) current = current->left;
       else current = current->right;
     }
-    return nullptr; // Not found
+    return nullptr;
+  }
+
+  // Const version (read-only)
+  const T* findData(const T& val) const {
+    AVLNode<T>* current = root;
+    while (current) {
+      if (val == current->data) return &(current->data);
+      if (val < current->data) current = current->left;
+      else current = current->right;
+    }
+    return nullptr;
   }
 };
