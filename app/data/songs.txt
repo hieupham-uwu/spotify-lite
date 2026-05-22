@@ -1,25 +1,50 @@
-S001|Shape of You|Ed Sheeran|Pop|264|1200|500
-S002|Perfect|Ed Sheeran|Pop|263|900|430
-S003|Blinding Lights|The Weeknd|Pop|200|1500|700
-S004|Believer|Imagine Dragons|Rock|204|1100|450
-S005|Someone Like You|Adele|Ballad|285|1000|600
-S006|Anti-Hero|Taylor Swift|Pop|200|1300|680
-S007|Cruel Summer|Taylor Swift|Pop|178|1250|650
-S008|Blank Space|Taylor Swift|Pop|231|950|520
-S009|Attention|Charlie Puth|Pop|211|980|470
-S010|Stay|The Kid LAROI & Justin Bieber|Pop|141|1400|690
-S011|Counting Stars|OneRepublic|Pop Rock|257|1150|530
-S012|Viva La Vida|Coldplay|Alternative|242|1080|510
-S013|Yellow|Coldplay|Alternative|269|890|450
-S014|Rolling in the Deep|Adele|Soul|228|1180|620
-S015|Photograph|Ed Sheeran|Pop|258|850|410
-S016|Let Her Go|Passenger|Folk|252|820|390
-S017|Thunder|Imagine Dragons|Rock|187|920|400
-S018|Demons|Imagine Dragons|Rock|177|870|380
-S019|As It Was|Harry Styles|Pop|167|1320|610
-S020|Watermelon Sugar|Harry Styles|Pop|174|990|460
-S021|Bad Habits|Ed Sheeran|Pop|231|1030|480
-S022|Easy On Me|Adele|Ballad|224|970|540
-S023|Hymn for the Weekend|Coldplay|Alternative|258|930|420
-S024|See You Again|Wiz Khalifa ft. Charlie Puth|Hip Hop|229|1280|580
-S025|Radioactive|Imagine Dragons|Rock|186|1050|490
+S001|Shape of You|Ed Sheeran|Pop|233|1250|920
+S002|Perfect|Ed Sheeran|Pop|263|980|810
+S003|Bad Habits|Ed Sheeran|Pop|231|870|650
+S004|Blank Space|Taylor Swift|Pop|231|1420|980
+S005|Anti Hero|Taylor Swift|Pop|200|1180|870
+S006|Cruel Summer|Taylor Swift|Pop|178|1560|1110
+S007|Believer|Imagine Dragons|Rock|204|1680|1040
+S008|Demons|Imagine Dragons|Rock|177|960|690
+S009|Thunder|Imagine Dragons|Rock|187|1120|790
+S010|Numb|Linkin Park|Rock|185|1900|1300
+S011|In The End|Linkin Park|Rock|216|1840|1240
+S012|Faded|Alan Walker|EDM|212|1750|1190
+S013|Alone|Alan Walker|EDM|161|940|710
+S014|The Spectre|Alan Walker|EDM|193|1320|860
+S015|Titanium|David Guetta|EDM|245|1210|830
+S016|Without You|Avicii|EDM|181|1080|760
+S017|Wake Me Up|Avicii|EDM|247|1650|1160
+S018|Blinding Lights|The Weeknd|RnB|200|2100|1480
+S019|Save Your Tears|The Weeknd|RnB|215|1510|1030
+S020|Starboy|The Weeknd|RnB|230|1710|1170
+S021|Levitating|Dua Lipa|Pop|203|1490|1010
+S022|New Rules|Dua Lipa|Pop|209|990|720
+S023|Dance The Night|Dua Lipa|Pop|176|880|640
+S024|Someone Like You|Adele|Ballad|285|1450|1090
+S025|Easy On Me|Adele|Ballad|224|1190|920
+S026|Hello|Adele|Ballad|295|1780|1320
+S027|All of Me|John Legend|Ballad|269|1380|990
+S028|Stay With Me|Sam Smith|Ballad|172|1030|780
+S029|Unholy|Sam Smith|Pop|156|910|670
+S030|Counting Stars|OneRepublic|Pop|257|1630|1070
+S031|Apologize|OneRepublic|Pop|208|1010|740
+S032|Radioactive|Imagine Dragons|Rock|187|1250|840
+S033|Lose Yourself|Eminem|HipHop|326|2020|1390
+S034|Not Afraid|Eminem|HipHop|248|1430|1010
+S035|Godzilla|Eminem|HipHop|211|1110|780
+S036|HUMBLE|Kendrick Lamar|HipHop|177|1360|960
+S037|DNA|Kendrick Lamar|HipHop|185|1020|720
+S038|Sunflower|Post Malone|HipHop|158|1580|1120
+S039|Circles|Post Malone|Pop|215|1260|890
+S040|Yellow|Coldplay|Indie|269|1160|850
+S041|Viva La Vida|Coldplay|Indie|242|1740|1210
+S042|A Sky Full of Stars|Coldplay|EDM|268|1370|930
+S043|Ocean Eyes|Billie Eilish|Indie|200|970|790
+S044|Bad Guy|Billie Eilish|Pop|194|1690|1180
+S045|Lovely|Billie Eilish|Ballad|200|1220|950
+S046|Take Five|Dave Brubeck|Jazz|324|520|310
+S047|So What|Miles Davis|Jazz|545|610|340
+S048|Fly Me To The Moon|Frank Sinatra|Jazz|147|850|590
+S049|Moonlight Sonata|Beethoven|Classical|900|430|290
+S050|Spring|Vivaldi|Classical|620|390|250
