@@ -1,4 +1,4 @@
-#include "StringUtilities.hpp"
+#include "StringUtils.hpp"
 
 string lowerStr(string s) {
   for (auto& x : s) {

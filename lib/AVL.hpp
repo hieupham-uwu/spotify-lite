@@ -1,7 +1,7 @@
 #pragma once
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <stdexcept>
 
 template <typename T>
@@ -46,9 +46,7 @@ class AVL {
  private:
   AVLNode<T>* root;
 
-  int getHeight(AVLNode<T>* node) const {
-    return node ? node->height : 0;
-  }
+  int getHeight(AVLNode<T>* node) const { return node ? node->height : 0; }
 
   int getBalance(AVLNode<T>* node) const {
     return node ? getHeight(node->left) - getHeight(node->right) : 0;
@@ -56,7 +54,8 @@ class AVL {
 
   void update(AVLNode<T>* node) {
     if (node) {
-      node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+      node->height =
+          std::max(getHeight(node->left), getHeight(node->right)) + 1;
     }
   }
 
@@ -111,9 +110,12 @@ class AVL {
       return;
     }
 
-    if (val < node->data) insertHelper(node->left, val);
-    else if (val > node->data) insertHelper(node->right, val);
-    else return;
+    if (val < node->data)
+      insertHelper(node->left, val);
+    else if (val > node->data)
+      insertHelper(node->right, val);
+    else
+      return;
 
     rebalance(node);
   }
@@ -121,8 +123,10 @@ class AVL {
   void removeHelper(AVLNode<T>*& node, const T& val) {
     if (!node) return;
 
-    if (val < node->data) removeHelper(node->left, val);
-    else if (val > node->data) removeHelper(node->right, val);
+    if (val < node->data)
+      removeHelper(node->left, val);
+    else if (val > node->data)
+      removeHelper(node->right, val);
     else {
       if (!node->left || !node->right) {
         AVLNode<T>* temp = node->left ? node->left : node->right;
@@ -173,8 +177,10 @@ class AVL {
     AVLNode<T>* current = root;
     while (current) {
       if (val == current->data) return &(current->data);
-      if (val < current->data) current = current->left;
-      else current = current->right;
+      if (val < current->data)
+        current = current->left;
+      else
+        current = current->right;
     }
     return nullptr;
   }
@@ -184,8 +190,10 @@ class AVL {
     AVLNode<T>* current = root;
     while (current) {
       if (val == current->data) return &(current->data);
-      if (val < current->data) current = current->left;
-      else current = current->right;
+      if (val < current->data)
+        current = current->left;
+      else
+        current = current->right;
     }
     return nullptr;
   }

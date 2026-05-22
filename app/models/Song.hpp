@@ -33,4 +33,10 @@ struct Song {
   bool operator==(const Song& other) const { return id == other.id; }
   bool operator<(const Song& other) const { return id < other.id; }
   bool operator>(const Song& other) const { return id > other.id; }
+
+  friend std::ostream& operator<<(std::ostream& os, const Song& s) {
+    os << s.id << "|" << s.title << "|" << s.artist << "|" << s.genre << "|"
+       << s.duration << "|" << s.playCount << "|" << s.likeCount;
+    return os;
+  }
 };
