@@ -6,7 +6,7 @@
 #include "../../lib/AVL.hpp"
 #include "../../lib/HASHTABLE.hpp"
 #include "../models/Song.hpp"
-#include "../utilities/StringUtilities.hpp"
+#include "../utilities/StringUtils.hpp"
 
 using namespace std;
 
@@ -24,6 +24,7 @@ class MusicLibrary {
  public:
   MusicLibrary();
   bool loadFromFile(const string& fileName);
+
   void addSong(const Song& song);
 
   Song* findById(string id);
