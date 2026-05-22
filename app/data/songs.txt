@@ -1,0 +1,25 @@
+S001|Shape of You|Ed Sheeran|Pop|264|1200|500
+S002|Perfect|Ed Sheeran|Pop|263|900|430
+S003|Blinding Lights|The Weeknd|Pop|200|1500|700
+S004|Believer|Imagine Dragons|Rock|204|1100|450
+S005|Someone Like You|Adele|Ballad|285|1000|600
+S006|Anti-Hero|Taylor Swift|Pop|200|1300|680
+S007|Cruel Summer|Taylor Swift|Pop|178|1250|650
+S008|Blank Space|Taylor Swift|Pop|231|950|520
+S009|Attention|Charlie Puth|Pop|211|980|470
+S010|Stay|The Kid LAROI & Justin Bieber|Pop|141|1400|690
+S011|Counting Stars|OneRepublic|Pop Rock|257|1150|530
+S012|Viva La Vida|Coldplay|Alternative|242|1080|510
+S013|Yellow|Coldplay|Alternative|269|890|450
+S014|Rolling in the Deep|Adele|Soul|228|1180|620
+S015|Photograph|Ed Sheeran|Pop|258|850|410
+S016|Let Her Go|Passenger|Folk|252|820|390
+S017|Thunder|Imagine Dragons|Rock|187|920|400
+S018|Demons|Imagine Dragons|Rock|177|870|380
+S019|As It Was|Harry Styles|Pop|167|1320|610
+S020|Watermelon Sugar|Harry Styles|Pop|174|990|460
+S021|Bad Habits|Ed Sheeran|Pop|231|1030|480
+S022|Easy On Me|Adele|Ballad|224|970|540
+S023|Hymn for the Weekend|Coldplay|Alternative|258|930|420
+S024|See You Again|Wiz Khalifa ft. Charlie Puth|Hip Hop|229|1280|580
+S025|Radioactive|Imagine Dragons|Rock|186|1050|490
