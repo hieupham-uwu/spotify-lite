@@ -77,4 +77,7 @@ bool MusicLibrary::increaseLikeCount(string id) {
 }
 
 AVL<Song> MusicLibrary::getAllSongs() const { return allSongs; }
+vector<Song> getAllSongsVector() const{
+	return allSongs.toVector();
+}
 size_t MusicLibrary::size() const { return songCount; }

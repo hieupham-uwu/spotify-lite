@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include<vector>
 
 #include "../../lib/AVL.hpp"
 #include "../../lib/HASHTABLE.hpp"
@@ -34,5 +35,6 @@ class MusicLibrary {
   bool increaseLikeCount(string id);
 
   AVL<Song> getAllSongs() const;
+  vector<Song> getAllSongsVector() const;
   size_t size() const;
 };
