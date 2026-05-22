@@ -34,7 +34,9 @@ class MusicLibrary {
   bool increasePlayCount(string id);
   bool increaseLikeCount(string id);
 
-  AVL<Song> getAllSongs() const;
+  const AVL<Song>& getAllSongs() const;
   vector<Song> getAllSongsVector() const;
   size_t size() const;
+  
+  
 };

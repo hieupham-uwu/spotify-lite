@@ -1,5 +1,5 @@
 #include "RankingService.hpp"
-#include "../utilities/StringUtilities.hpp"
+#include "../utilities/StringUtils.hpp"
 
 using namespace std;
 
