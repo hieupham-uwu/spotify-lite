@@ -52,9 +52,9 @@ class HashTable {
   }
 
  public:
-  explicit HashTable(size_t size = 101) : tableSize(size), totalElements(0) {
+  explicit HashTable(size_t size = 101) : totalElements(0), tableSize(size) {
     table.resize(tableSize);
-  }
+}
 
   ~HashTable() { clear(); }
 
