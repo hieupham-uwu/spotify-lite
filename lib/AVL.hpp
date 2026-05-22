@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 template <typename T>
 struct AVLNode {
@@ -35,11 +36,21 @@ template <typename T>
         myAVL.clear();
         if (myAVL.empty()) { // Tree contains no nodes }
 
+    6. Traversal:
+        vector<int> values = myAVL.inorder();
+        vector<int> values = myAVL.preorder();
+        vector<int> values = myAVL.postorder();
+
+    7. Convert to vector:
+        vector<int> values = myAVL.toVector();
+
   All functions:
 + Add elements: insert()
 + Remove elements: remove()
 + Search elements: search()
 + Utility functions: clear(), empty()
++ Traversal: inorder(), preorder(), postorder()
++ Convert: toVector()
 */
 
 class AVL {
@@ -158,6 +169,34 @@ class AVL {
     node = nullptr;
   }
 
+  // ==========================
+  // TRAVERSAL HELPERS
+  // ==========================
+
+  void inorderHelper(AVLNode<T>* node, std::vector<T>& result) const {
+    if (!node) return;
+
+    inorderHelper(node->left, result);
+    result.push_back(node->data);
+    inorderHelper(node->right, result);
+  }
+
+  void preorderHelper(AVLNode<T>* node, std::vector<T>& result) const {
+    if (!node) return;
+
+    result.push_back(node->data);
+    preorderHelper(node->left, result);
+    preorderHelper(node->right, result);
+  }
+
+  void postorderHelper(AVLNode<T>* node, std::vector<T>& result) const {
+    if (!node) return;
+
+    postorderHelper(node->left, result);
+    postorderHelper(node->right, result);
+    result.push_back(node->data);
+  }
+
  public:
   AVL() : root(nullptr) {}
   ~AVL() { clear(); }
@@ -167,6 +206,32 @@ class AVL {
   bool search(const T& val) const { return searchHelper(root, val); }
   void clear() { clearHelper(root); }
   bool empty() const { return root == nullptr; }
+
+  // ==========================
+  // TRAVERSAL FUNCTIONS
+  // ==========================
+
+  std::vector<T> inorder() const {
+    std::vector<T> result;
+    inorderHelper(root, result);
+    return result;
+  }
+
+  std::vector<T> preorder() const {
+    std::vector<T> result;
+    preorderHelper(root, result);
+    return result;
+  }
+
+  std::vector<T> postorder() const {
+    std::vector<T> result;
+    postorderHelper(root, result);
+    return result;
+  }
+
+  std::vector<T> toVector() const {
+    return inorder();
+  }
 
   // ==========================
   // EXTENSION FOR HASHTABLE
