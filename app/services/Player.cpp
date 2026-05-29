@@ -149,3 +149,6 @@ void Player::showQueue() const {
          << formatDuration(song->duration) << ")\n";
   }
 }
+
+Song* Player::getCurrentSong() const { return currentSong; }
+bool Player::getShuffleState() const { return isShuffle; }

@@ -35,4 +35,7 @@ class Player {
 
   void showCurrentSong() const;
   void showQueue() const;
+
+  Song* getCurrentSong() const;
+  bool getShuffleState() const;
 };
