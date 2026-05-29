@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 
 #include <string>
 
@@ -10,7 +10,7 @@ struct Artist {
   LINKEDLIST<Song> songs;
 
   Artist();
-  Artist(std::string name) { this->name; }
+  Artist(std::string name) { this->name = name; }
 
   bool operator<(const Artist& Other) const { return this->name < Other.name; }
 

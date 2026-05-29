@@ -22,3 +22,15 @@ vector<string> trimString(string s, char sep) {
 
   return ans;
 }
+
+string formatDuration(int totalSeconds) {
+  int minutes = totalSeconds / 60;
+  int seconds = totalSeconds % 60;
+
+  string minStr =
+      (minutes < 10) ? "0" + to_string(minutes) : to_string(minutes);
+  string secStr =
+      (seconds < 10) ? "0" + to_string(seconds) : to_string(seconds);
+
+  return minStr + ":" + secStr;
+}

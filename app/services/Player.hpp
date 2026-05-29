@@ -1,4 +1,9 @@
 #pragma once
+#include <algorithm>
+#include <ctime>
+#include <random>
+#include <vector>
+
 #include "../../lib/LINKEDLIST.hpp"
 #include "../../lib/STACK.hpp"
 #include "../models/Song.hpp"
@@ -6,24 +11,28 @@
 
 class Player {
  private:
-  LINKEDLIST<Song> currentQueue;
-  STACK<Song> history;
-  int currentIndex;
-  bool hasCurrent;
-  Song currentSong;
+  std::vector<Song*> originalQueue;
+  std::vector<Song*> playbackQueue;
+  STACK<Song*> history;
 
-  bool getSongAt(int index, Song& out) const;
+  Song* currentSong;
+  int currentIndex;
+  bool isShuffle;
+
+  void applyShuffle();
 
  public:
   Player();
 
-  void loadPlaylist(const LINKEDLIST<Song>& playlist);
+  void loadPlaylist(const LINKEDLIST<Song*>& playlist);
+
   bool play(MusicLibrary& library);
   bool next(MusicLibrary& library);
   bool back(MusicLibrary& library);
   bool likeCurrentSong(MusicLibrary& library);
 
-  bool getCurrentSong(Song& out) const;
+  void toggleShuffle();
+
   void showCurrentSong() const;
   void showQueue() const;
 };
