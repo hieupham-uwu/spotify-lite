@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <stdexcept>
-
+using namespace std;
 template <typename T>
 struct BSTNode {
   T data;
@@ -115,7 +115,7 @@ struct BST {
 
   void preOrderHelper(BSTNode<T>* node) const {
     if (node == nullptr) return;
-    std::cout << node->data << " ";
+    cout << node->data << " ";
     preOrderHelper(node->left);
     preOrderHelper(node->right);
   }
@@ -123,7 +123,7 @@ struct BST {
   void inOrderHelper(BSTNode<T>* node) const {
     if (node == nullptr) return;
     inOrderHelper(node->left);
-    std::cout << node->data << " ";
+    cout << node->data << " ";
     inOrderHelper(node->right);
   }
 
@@ -131,7 +131,7 @@ struct BST {
     if (node == nullptr) return;
     postOrderHelper(node->left);
     postOrderHelper(node->right);
-    std::cout << node->data << " ";
+    cout << node->data << " ";
   }
 
  public:
@@ -153,16 +153,16 @@ struct BST {
 
   void traversePreOrder() const {
     preOrderHelper(root);
-    std::cout << "\n";
+    cout << "\n";
   }
 
   void traverseInOrder() const {
     inOrderHelper(root);
-    std::cout << "\n";
+    cout << "\n";
   }
 
   void traversePostOrder() const {
     postOrderHelper(root);
-    std::cout << "\n";
+    cout << "\n";
   }
 };

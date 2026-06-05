@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
-
+using namespace std;
 template <typename T>
 struct AVLNode {
   T data;
@@ -66,7 +66,7 @@ class AVL {
   void update(AVLNode<T>* node) {
     if (node) {
       node->height =
-          std::max(getHeight(node->left), getHeight(node->right)) + 1;
+          max(getHeight(node->left), getHeight(node->right)) + 1;
     }
   }
 
@@ -211,25 +211,25 @@ class AVL {
   // TRAVERSAL FUNCTIONS
   // ==========================
 
-  std::vector<T> inorder() const {
-    std::vector<T> result;
+  vector<T> inorder() const {
+    vector<T> result;
     inorderHelper(root, result);
     return result;
   }
 
-  std::vector<T> preorder() const {
-    std::vector<T> result;
+  vector<T> preorder() const {
+    vector<T> result;
     preorderHelper(root, result);
     return result;
   }
 
-  std::vector<T> postorder() const {
-    std::vector<T> result;
+  vector<T> postorder() const {
+    vector<T> result;
     postorderHelper(root, result);
     return result;
   }
 
-  std::vector<T> toVector() const {
+  vector<T> toVector() const {
     return inorder();
   }
 
