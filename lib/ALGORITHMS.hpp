@@ -238,3 +238,202 @@ int binarySearch(const vector<T>& vec, const T& key) {
   }
   return -1;
 }
+// ==========================
+// ARRAY-BASED SORTING
+// ==========================
+
+template <typename T, typename Comp = less<T>>
+void bubbleSort(T arr[], int n, Comp cmp = less<T>()) {
+  if (arr == nullptr || n <= 1) return;
+
+  for (int i = 0; i < n - 1; ++i) {
+    for (int j = 0; j < n - i - 1; ++j) {
+      if (cmp(arr[j + 1], arr[j])) {
+        swap(arr[j], arr[j + 1]);
+      }
+    }
+  }
+}
+
+template <typename T, typename Comp = less<T>>
+void selectionSort(T arr[], int n, Comp cmp = less<T>()) {
+  if (arr == nullptr || n <= 1) return;
+
+  for (int i = 0; i < n - 1; ++i) {
+    int best = i;
+
+    for (int j = i + 1; j < n; ++j) {
+      if (cmp(arr[j], arr[best])) {
+        best = j;
+      }
+    }
+
+    if (best != i) {
+      swap(arr[i], arr[best]);
+    }
+  }
+}
+
+template <typename T, typename Comp = less<T>>
+void insertionSort(T arr[], int n, Comp cmp = less<T>()) {
+  if (arr == nullptr || n <= 1) return;
+
+  for (int i = 1; i < n; ++i) {
+    T key = arr[i];
+    int j = i - 1;
+
+    while (j >= 0 && cmp(key, arr[j])) {
+      arr[j + 1] = arr[j];
+      --j;
+    }
+
+    arr[j + 1] = key;
+  }
+}
+
+template <typename T, typename Comp>
+void heapifyArray(T arr[], int n, int i, Comp cmp) {
+  int best = i;
+  int left = 2 * i + 1;
+  int right = 2 * i + 2;
+
+  if (left < n && cmp(arr[best], arr[left])) {
+    best = left;
+  }
+
+  if (right < n && cmp(arr[best], arr[right])) {
+    best = right;
+  }
+
+  if (best != i) {
+    swap(arr[i], arr[best]);
+    heapifyArray(arr, n, best, cmp);
+  }
+}
+
+template <typename T, typename Comp = less<T>>
+void heapSort(T arr[], int n, Comp cmp = less<T>()) {
+  if (arr == nullptr || n <= 1) return;
+
+  for (int i = n / 2 - 1; i >= 0; --i) {
+    heapifyArray(arr, n, i, cmp);
+  }
+
+  for (int i = n - 1; i > 0; --i) {
+    swap(arr[0], arr[i]);
+    heapifyArray(arr, i, 0, cmp);
+  }
+}
+
+template <typename T, typename Comp>
+int partitionArray(T arr[], int lo, int hi, Comp cmp) {
+  T pivot = arr[hi];
+  int i = lo - 1;
+
+  for (int j = lo; j < hi; ++j) {
+    if (cmp(arr[j], pivot)) {
+      ++i;
+      swap(arr[i], arr[j]);
+    }
+  }
+
+  swap(arr[i + 1], arr[hi]);
+  return i + 1;
+}
+
+template <typename T, typename Comp = std::less<T>>
+void quickSort(T arr[], int lo, int hi, Comp cmp = less<T>()) {
+  if (arr == nullptr || lo >= hi || lo < 0) return;
+
+  int p = partitionArray(arr, lo, hi, cmp);
+  quickSort(arr, lo, p - 1, cmp);
+  quickSort(arr, p + 1, hi, cmp);
+}
+
+template <typename T, typename Comp>
+void mergeArray(T arr[], T temp[], int left, int mid, int right, Comp cmp) {
+  int i = left;
+  int j = mid + 1;
+  int k = left;
+
+  while (i <= mid && j <= right) {
+    if (!cmp(arr[j], arr[i])) {
+      temp[k++] = arr[i++];
+    } else {
+      temp[k++] = arr[j++];
+    }
+  }
+
+  while (i <= mid) {
+    temp[k++] = arr[i++];
+  }
+
+  while (j <= right) {
+    temp[k++] = arr[j++];
+  }
+
+  for (int x = left; x <= right; ++x) {
+    arr[x] = temp[x];
+  }
+}
+
+template <typename T, typename Comp>
+void mergeSortArrayHelper(T arr[], T temp[], int left, int right, Comp cmp) {
+  if (left >= right) return;
+
+  int mid = left + (right - left) / 2;
+
+  mergeSortArrayHelper(arr, temp, left, mid, cmp);
+  mergeSortArrayHelper(arr, temp, mid + 1, right, cmp);
+  mergeArray(arr, temp, left, mid, right, cmp);
+}
+
+template <typename T, typename Comp = less<T>>
+void mergeSort(T arr[], int n, Comp cmp = less<T>()) {
+  if (arr == nullptr || n <= 1) return;
+
+  T* temp = new T[n];
+  mergeSortArrayHelper(arr, temp, 0, n - 1, cmp);
+  delete[] temp;
+}
+
+// ==========================
+// ARRAY-BASED SEARCHING
+// ==========================
+
+template <typename T>
+int linearSearch(T arr[], int n, const T& key) {
+  if (arr == nullptr || n <= 0) return -1;
+
+  for (int i = 0; i < n; ++i) {
+    if (arr[i] == key) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+template <typename T>
+int binarySearch(T arr[], int n, const T& key) {
+  if (arr == nullptr || n <= 0) return -1;
+
+  int lo = 0;
+  int hi = n - 1;
+
+  while (lo <= hi) {
+    int mid = lo + (hi - lo) / 2;
+
+    if (arr[mid] == key) {
+      return mid;
+    }
+
+    if (arr[mid] < key) {
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+
+  return -1;
+}
