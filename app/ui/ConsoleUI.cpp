@@ -115,7 +115,6 @@ string ConsoleUI::readLine(const string& prompt) {
   string s;
   cout << prompt;
   getline(cin, s);
-  // Viết 1 hàm trim đơn giản để xóa khoảng trắng 2 đầu nếu cần, ở đây lấy thẳng
   return s;
 }
 
