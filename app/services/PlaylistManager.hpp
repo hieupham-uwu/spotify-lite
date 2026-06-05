@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "../../lib/LINKEDLIST.hpp"
-#include "../../lib/HASHTABLE.hpp"
+#include "../../lib/HashTable.hpp"
+#include "../../lib/LinkedList.hpp"
 #include "../models/Playlist.hpp"
 #include "../models/Song.hpp"
 #include "MusicLibrary.hpp"
@@ -14,7 +14,7 @@ using namespace std;
 class PlaylistManager {
 private:
     HashTable<string, Playlist> playlists;
-    LINKEDLIST<string> playlistNames;
+    LinkedList<string> playlistNames;
 
     string normalizeName(const string& name) const;
 
@@ -41,7 +41,7 @@ public:
 
     bool clearPlaylist(const string& playlistName);
 
-    LINKEDLIST<string> getAllPlaylistNames() const;
+    LinkedList<string> getAllPlaylistNames() const;
     int playlistCount() const;
 };
 

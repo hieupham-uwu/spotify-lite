@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "../../lib/LINKEDLIST.hpp"
-#include "../../lib/ALGORITHMS.hpp"
+#include "../../lib/Algorithms.hpp"
+#include "../../lib/LinkedList.hpp"
 #include "../models/Song.hpp"
 #include "MusicLibrary.hpp"
 
@@ -13,24 +13,20 @@ using namespace std;
 
 class RankingService {
 private:
-	
     static vector<Song> getSongsAsVector(const MusicLibrary& library);
 
 public:
-    
-    static LINKEDLIST<Song> getTopByPlayCount(
+    static LinkedList<Song> getTopByPlayCount(
         const MusicLibrary& library,
         int limit
     );
 
-    
-    static LINKEDLIST<Song> getTopByLikeCount(
+    static LinkedList<Song> getTopByLikeCount(
         const MusicLibrary& library,
         int limit
     );
 
-    
-    static LINKEDLIST<Song> getTopByGenre(
+    static LinkedList<Song> getTopByGenre(
         const MusicLibrary& library,
         const string& genre,
         int limit

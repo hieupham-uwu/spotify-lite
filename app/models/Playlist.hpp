@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-
 #include "../../lib/LinkedList.hpp"
 
 using namespace std;
@@ -15,26 +14,20 @@ struct Playlist {
   Playlist(string name) { this->name = name; }
 
   bool addSongId(const string& songId) {
-    if (songId.empty()) {
-      return false;
-    }
+    if (songId.empty()) return false;
 
-    if (containsSongId(songId)) {
-      return false;
-    }
+    if (containsSongId(songId)) return false;
 
-    songIds.push_back(songId);
+    songIds.insertBack(songId);
     return true;
   }
 
   bool removeSongId(const string& songId) {
     auto it = songIds.find(songId);
 
-    if (it == songIds.end()) {
-      return false;
-    }
+    if (it == songIds.end()) return false;
 
-    songIds.erase(it);
+    songIds.removeIt(it);
     return true;
   }
 
@@ -45,7 +38,7 @@ struct Playlist {
 
   void clear() { songIds.clear(); }
 
-  int size() const { return (int)songIds.size(); }
+  int size() const { return songIds.size(); }
 
   bool empty() const { return songIds.empty(); }
 };

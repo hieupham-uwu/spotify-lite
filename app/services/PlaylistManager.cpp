@@ -1,4 +1,5 @@
 #include "PlaylistManager.hpp"
+
 #include <cctype>
 
 using namespace std;
@@ -7,7 +8,7 @@ string PlaylistManager::normalizeName(const string& name) const {
     string result = name;
 
     for (int i = 0; i < (int)result.length(); i++) {
-        result[i] = tolower(result[i]);
+        result[i] = (char)tolower(result[i]);
     }
 
     return result;
@@ -30,7 +31,7 @@ bool PlaylistManager::createPlaylist(const string& playlistName) {
     Playlist newPlaylist(playlistName);
 
     playlists.insert(key, newPlaylist);
-    playlistNames.push_back(playlistName);
+    playlistNames.insertBack(playlistName);
 
     return true;
 }
@@ -50,7 +51,7 @@ bool PlaylistManager::deletePlaylist(const string& playlistName) {
 
     for (auto it = playlistNames.begin(); it != playlistNames.end(); ++it) {
         if (normalizeName(*it) == key) {
-            playlistNames.erase(it);
+            playlistNames.removeIt(it);
             break;
         }
     }
@@ -141,10 +142,10 @@ bool PlaylistManager::clearPlaylist(const string& playlistName) {
     return true;
 }
 
-LINKEDLIST<string> PlaylistManager::getAllPlaylistNames() const {
+LinkedList<string> PlaylistManager::getAllPlaylistNames() const {
     return playlistNames;
 }
 
 int PlaylistManager::playlistCount() const {
-    return (int)playlistNames.size();
+    return playlistNames.size();
 }

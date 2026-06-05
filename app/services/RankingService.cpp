@@ -1,4 +1,5 @@
 #include "RankingService.hpp"
+
 #include "../utilities/StringUtils.hpp"
 
 using namespace std;
@@ -7,11 +8,11 @@ vector<Song> RankingService::getSongsAsVector(const MusicLibrary& library) {
     return library.getAllSongsVector();
 }
 
-LINKEDLIST<Song> RankingService::getTopByPlayCount(
+LinkedList<Song> RankingService::getTopByPlayCount(
     const MusicLibrary& library,
     int limit
 ) {
-    LINKEDLIST<Song> res;
+    LinkedList<Song> res;
 
     if (limit <= 0) {
         return res;
@@ -38,17 +39,17 @@ LINKEDLIST<Song> RankingService::getTopByPlayCount(
     }
 
     for (int i = 0; i < count; i++) {
-        res.push_back(songs[i]);
+        res.insertBack(songs[i]);
     }
 
     return res;
 }
 
-LINKEDLIST<Song> RankingService::getTopByLikeCount(
+LinkedList<Song> RankingService::getTopByLikeCount(
     const MusicLibrary& library,
     int limit
 ) {
-    LINKEDLIST<Song> res;
+    LinkedList<Song> res;
 
     if (limit <= 0) {
         return res;
@@ -75,18 +76,18 @@ LINKEDLIST<Song> RankingService::getTopByLikeCount(
     }
 
     for (int i = 0; i < count; i++) {
-        res.push_back(songs[i]);
+        res.insertBack(songs[i]);
     }
 
     return res;
 }
 
-LINKEDLIST<Song> RankingService::getTopByGenre(
+LinkedList<Song> RankingService::getTopByGenre(
     const MusicLibrary& library,
     const string& genre,
     int limit
 ) {
-    LINKEDLIST<Song> res;
+    LinkedList<Song> res;
 
     if (limit <= 0 || genre.empty()) {
         return res;
@@ -130,7 +131,7 @@ LINKEDLIST<Song> RankingService::getTopByGenre(
     }
 
     for (int i = 0; i < count; i++) {
-        res.push_back(filteredSongs[i]);
+        res.insertBack(filteredSongs[i]);
     }
 
     return res;

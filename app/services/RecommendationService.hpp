@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "../../lib/LINKEDLIST.hpp"
-#include "../../lib/PRIORITYQUEUE.hpp"
+#include "../../lib/LinkedList.hpp"
+#include "../../lib/PriorityQueue.hpp"
 #include "../models/Song.hpp"
 #include "MusicLibrary.hpp"
 
@@ -27,18 +27,18 @@ private:
     static int calculateHotScore(const Song& song);
 
 public:
-    static LINKEDLIST<Song> recommendHotSongs(
+    static LinkedList<Song> recommendHotSongs(
         const MusicLibrary& library,
         int limit
     );
 
-    static LINKEDLIST<Song> recommendByGenre(
+    static LinkedList<Song> recommendByGenre(
         const MusicLibrary& library,
         const string& genre,
         int limit
     );
 
-    static LINKEDLIST<Song> recommendSimilarSongs(
+    static LinkedList<Song> recommendSimilarSongs(
         MusicLibrary& library,
         const string& currentSongId,
         int limit

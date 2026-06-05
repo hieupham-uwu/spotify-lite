@@ -5,8 +5,8 @@
 #include <vector>
 
 #include "../../lib/AVL.hpp"
-#include "../../lib/HASHTABLE.hpp"
-#include "../../lib/LINKEDLIST.hpp"
+#include "../../lib/HashTable.hpp"
+#include "../../lib/LinkedList.hpp"
 #include "../models/Song.hpp"
 #include "MusicLibrary.hpp"
 
@@ -16,7 +16,7 @@ class ArtistManager {
 private:
     AVL<string> artistTree;
     HashTable<string, string> displayArtistNames;
-    HashTable<string, LINKEDLIST<string>> songsByArtist;
+    HashTable<string, LinkedList<string>> songsByArtist;
 
     string normalizeArtistName(const string& artistName) const;
 
@@ -27,9 +27,9 @@ public:
 
     bool hasArtist(const string& artistName) const;
 
-    LINKEDLIST<string> getArtistsAZ() const;
+    LinkedList<string> getArtistsAZ() const;
 
-    LINKEDLIST<string> getSongIdsByArtist(const string& artistName) const;
+    LinkedList<string> getSongIdsByArtist(const string& artistName) const;
 
     int artistCount() const;
 
