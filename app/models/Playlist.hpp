@@ -1,60 +1,51 @@
 #pragma once
 
 #include <string>
-#include "../../lib/LINKEDLIST.hpp"
+
+#include "../../lib/LinkedList.hpp"
 
 using namespace std;
 
 struct Playlist {
-    string name;
-    LINKEDLIST<string> songIds;
+  string name;
+  LinkedList<string> songIds;
 
-    Playlist() {
-        name = "";
+  Playlist() { name = ""; }
+
+  Playlist(string name) { this->name = name; }
+
+  bool addSongId(const string& songId) {
+    if (songId.empty()) {
+      return false;
     }
 
-    Playlist(string name) {
-        this->name = name;
+    if (containsSongId(songId)) {
+      return false;
     }
 
-    bool addSongId(const string& songId) {
-        if (songId.empty()) {
-            return false;
-        }
+    songIds.push_back(songId);
+    return true;
+  }
 
-        if (containsSongId(songId)) {
-            return false;
-        }
+  bool removeSongId(const string& songId) {
+    auto it = songIds.find(songId);
 
-        songIds.push_back(songId);
-        return true;
+    if (it == songIds.end()) {
+      return false;
     }
 
-    bool removeSongId(const string& songId) {
-        auto it = songIds.find(songId);
+    songIds.erase(it);
+    return true;
+  }
 
-        if (it == songIds.end()) {
-            return false;
-        }
+  bool containsSongId(const string& songId) const {
+    auto it = songIds.find(songId);
+    return it != songIds.end();
+  }
 
-        songIds.erase(it);
-        return true;
-    }
+  void clear() { songIds.clear(); }
 
-    bool containsSongId(const string& songId) const {
-        auto it = songIds.find(songId);
-        return it != songIds.end();
-    }
+  int size() const { return (int)songIds.size(); }
 
-    void clear() {
-        songIds.clear();
-    }
-
-    int size() const {
-        return (int)songIds.size();
-    }
-
-    bool empty() const {
-        return songIds.empty();
-    }
+  bool empty() const { return songIds.empty(); }
 };
