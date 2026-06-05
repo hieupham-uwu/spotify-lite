@@ -4,7 +4,7 @@
 #include <functional>
 #include <stdexcept>
 #include "AVL.hpp"
-
+using namespace std;
 template <typename K, typename V>
 struct HashNode {
   K key;
@@ -22,15 +22,15 @@ template <typename K, typename V>
 /*
   Usage (Professional Pointer-Return Style):
     1. Initialize a HashTable:
-        HashTable<std::string, std::string> myTable(101);
+        HashTable<string, string> myTable(101);
 
     2. Insert or update a key-value pair:
         myTable.insert("K25", "SongData");
 
     3. Search and access data safely via find():
-        std::string* songPtr = myTable.find("K25");
+        string* songPtr = myTable.find("K25");
         if (songPtr != nullptr) {
-            std::cout << "Found: " << *songPtr << "\n";
+            cout << "Found: " << *songPtr << "\n";
             *songPtr = "UpdatedSongData";
         }
 
@@ -43,23 +43,23 @@ template <typename K, typename V>
 
 class HashTable {
  private:
-  std::vector<AVL<HashNode<K, V>>> table;
-  size_t totalElements;
-  size_t tableSize;
+  vector<AVL<HashNode<K, V>>> table;
+  int totalElements;
+  int tableSize;
 
-  size_t hashFunction(const K& key) const {
-    return std::hash<K>{}(key) % tableSize;
+  int hashFunction(const K& key) const {
+    return hash<K>{}(key) % tableSize;
   }
 
  public:
-  explicit HashTable(size_t size = 101) : totalElements(0), tableSize(size) {
+  explicit HashTable(int size = 101) : totalElements(0), tableSize(size) {
     table.resize(tableSize);
 }
 
   ~HashTable() { clear(); }
 
   void insert(const K& key, const V& value) {
-    size_t index = hashFunction(key);
+    int index = hashFunction(key);
     HashNode<K, V> tempNode(key, value);
 
     HashNode<K, V>* existingNode = table[index].findData(tempNode);
@@ -73,7 +73,7 @@ class HashTable {
   }
 
   bool remove(const K& key) {
-    size_t index = hashFunction(key);
+    int index = hashFunction(key);
     HashNode<K, V> tempNode(key, V{});
 
     if (table[index].search(tempNode)) {
@@ -85,7 +85,7 @@ class HashTable {
   }
 
   V* find(const K& key) {
-    size_t index = hashFunction(key);
+    int index = hashFunction(key);
     HashNode<K, V> tempNode(key, V{});
 
     HashNode<K, V>* node = table[index].findData(tempNode);
@@ -93,7 +93,7 @@ class HashTable {
   }
 
   const V* find(const K& key) const {
-    size_t index = hashFunction(key);
+    int index = hashFunction(key);
     HashNode<K, V> tempNode(key, V{});
 
     const HashNode<K, V>* node = table[index].findData(tempNode);
@@ -104,10 +104,10 @@ class HashTable {
     return find(key) != nullptr;
   }
 
-  size_t size() const { return totalElements; }
+  int size() const { return totalElements; }
 
   void clear() {
-    for (size_t i = 0; i < tableSize; ++i) {
+    for (int i = 0; i < tableSize; ++i) {
       table[i].clear();
     }
     totalElements = 0;
