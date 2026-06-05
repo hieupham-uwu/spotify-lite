@@ -25,6 +25,7 @@ const int RIGHT_W = SCREEN_W - SIDE_W - 3;
 ConsoleUI::ConsoleUI() : selectedIndex(0) { initMenuItems(); }
 
 bool ConsoleUI::init(const string& dataFile) {
+  filePath = dataFile;
   bool ok = library.loadFromFile(dataFile);
   rebuildIndexes();
   return ok;
@@ -420,6 +421,7 @@ void ConsoleUI::handleLikeCurrentSong() {
   renderContentTitle("LIKE CURRENT SONG");
   if (player.likeCurrentSong(library)) {
     cout << "  You liked: " << player.getCurrentSong()->title << "!\n";
+    library.saveToFile(filePath);
   } else {
     cout << "  No song is playing right now.\n";
   }
