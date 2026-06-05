@@ -1,22 +1,27 @@
 #pragma once
+#include <stack>
 #include <stdexcept>
+using namespace std;
+
 template <typename T>
 
 /*
 - Support deep copy constructor and assignment operator
   All functions:
 + View elements: front(), back(), find(value) => iterator or nullptr
-+ Add elements: push_back(), push_front(), insert(it, value), insert(index,
++ Add elements: insertBack(), insertFront(), insert(it, value), insert(index,
 value)
-+ Remove elements: pop_back(), pop_front(), erase(it), erase(index)
++ Remove elements: popBack(), popFront(), remove(value), removeAt(index),
+removeIt(It)
 + Clear the list: clear()
 + Utility functions: size(), empty()
 + Iterators: begin(), end()
 + Special function: reverse()
-
++ Traversal: traverseForward(void formatShowing()), traverseBackward(void
+formatShowing())
 */
 
-class LINKEDLIST {
+class LinkedList {
  private:
   struct Node {
     T data;
@@ -25,11 +30,11 @@ class LINKEDLIST {
   };
   Node* head;
   Node* tail;
-  size_t sizeLL;
+  int sizeLL;
 
  public:
   class Iterator {
-    friend class LINKEDLIST;
+    friend class LinkedList;
 
    private:
     Node* current;
@@ -38,18 +43,16 @@ class LINKEDLIST {
     explicit Iterator(Node* node) : current(node) {}
 
     T& operator*() const {
-      if (current == nullptr)
-        throw std::runtime_error("Iterator out of bounds");
+      if (current == nullptr) throw runtime_error("Iterator out of bounds");
       return current->data;
     }
-    // Pre-increment ++iterator
+
     Iterator& operator++() {
-      if (current == nullptr)
-        throw std::runtime_error("Iterator out of bounds");
+      if (current == nullptr) throw runtime_error("Iterator out of bounds");
       current = current->next;
       return *this;
     }
-    // Post-increment iterator++
+
     Iterator operator++(int) {
       Iterator temp = *this;
       ++(*this);
@@ -65,26 +68,25 @@ class LINKEDLIST {
     }
   };
 
-  LINKEDLIST() : head(nullptr), tail(nullptr), sizeLL(0) {}
-  ~LINKEDLIST() { clear(); }
+  LinkedList() : head(nullptr), tail(nullptr), sizeLL(0) {}
+  ~LinkedList() { clear(); }
 
-  // Deep copy constructor
-  LINKEDLIST(const LINKEDLIST& other)
+  LinkedList(const LinkedList& other)
       : head(nullptr), tail(nullptr), sizeLL(0) {
     Node* current = other.head;
     while (current != nullptr) {
-      push_back(current->data);
+      insertBack(current->data);
       current = current->next;
     }
   }
 
-  LINKEDLIST& operator=(const LINKEDLIST& other) {
+  LinkedList& operator=(const LinkedList& other) {
     if (this == &other) return *this;
     clear();
 
     Node* current = other.head;
     while (current != nullptr) {
-      push_back(current->data);
+      insertBack(current->data);
       current = current->next;
     }
     return *this;
@@ -92,12 +94,12 @@ class LINKEDLIST {
 
   // View elements
   T front() const {
-    if (sizeLL == 0) throw std::runtime_error("List is empty");
+    if (sizeLL == 0) throw runtime_error("List is empty");
     return head->data;
   }
 
   T back() const {
-    if (sizeLL == 0) throw std::runtime_error("List is empty");
+    if (sizeLL == 0) throw runtime_error("List is empty");
     return tail->data;
   }
 
@@ -112,8 +114,35 @@ class LINKEDLIST {
     return end();  // Not found
   }
 
+  void traverseForward(void (*showValue)(Node*)) {
+    if (sizeLL == 0) return;
+    Node* curr = head;
+    while (curr != nullptr) {
+      showValue(curr);
+      curr = curr->next;
+    }
+  }
+
+  void traverseBackward(void (*showValue)(Node*)) {
+    if (sizeLL == 0) return;
+
+    stack<Node*> st;
+    Node* curr = head;
+
+    while (curr != nullptr) {
+      st.push(curr);
+      curr = curr->next;
+    }
+
+    while (!st.empty()) {
+      Node* top = st.top();
+      showValue(top);
+      st.pop();
+    }
+  }
+
   // Add elements
-  void push_back(const T& value) {
+  void insertBack(const T& value) {
     Node* newNode = new Node(value);
     if (sizeLL == 0) {
       head = tail = newNode;
@@ -124,7 +153,7 @@ class LINKEDLIST {
     ++sizeLL;
   }
 
-  void push_front(const T& value) {
+  void insertFront(const T& value) {
     Node* newNode = new Node(value);
     if (sizeLL == 0) {
       head = tail = newNode;
@@ -137,35 +166,35 @@ class LINKEDLIST {
 
   void insert(Iterator it, const T& value) {
     Node* node = it.current;
-    if (node == nullptr) throw std::runtime_error("Node is null");
+    if (node == nullptr) throw runtime_error("List is empty");
     if (node == head) {
-      push_front(value);
+      insertFront(value);
       return;
     }
     Node* current = head;
     while (current != nullptr && current->next != node) {
       current = current->next;
     }
-    if (current == nullptr) throw std::runtime_error("Node not found");
+    if (current == nullptr) throw runtime_error("Node not found");
     Node* newNode = new Node(value);
     newNode->next = node;
     current->next = newNode;
     ++sizeLL;
   }
 
-  void insert(size_t index, const T& value) {
-    if (index > sizeLL) throw std::runtime_error("Index out of bounds");
+  void insertAt(int index, const T& value) {
+    if (index > sizeLL) throw runtime_error("Index out of bounds");
     if (index == 0) {
-      push_front(value);
+      insertFront(value);
       return;
     }
     if (index == sizeLL) {
-      push_back(value);
+      insertBack(value);
       return;
     }
     Node* newNode = new Node(value);
     Node* current = head;
-    for (size_t i = 0; i < index - 1; ++i) {
+    for (int i = 0; i < index - 1; ++i) {
       current = current->next;
     }
     newNode->next = current->next;
@@ -174,8 +203,8 @@ class LINKEDLIST {
   }
 
   // Remove elements
-  void pop_back() {
-    if (sizeLL == 0) throw std::runtime_error("List is empty");
+  void popBack() {
+    if (sizeLL == 0) throw runtime_error("List is empty");
     if (sizeLL == 1) {
       delete head;
       head = tail = nullptr;
@@ -191,8 +220,8 @@ class LINKEDLIST {
     --sizeLL;
   }
 
-  void pop_front() {
-    if (sizeLL == 0) throw std::runtime_error("List is empty");
+  void popFront() {
+    if (sizeLL == 0) throw runtime_error("List is empty");
     Node* temp = head;
     head = head->next;
     delete temp;
@@ -202,18 +231,45 @@ class LINKEDLIST {
     --sizeLL;
   }
 
-  void erase(Iterator it) {
+  void remove(int value) {
+    if (sizeLL == 0) return;
+    while (head && head->data == value) {
+      popFront();
+    }
+
+    Node* curr = head;
+    Node* prev = nullptr;
+    Node* next = nullptr;
+
+    while (curr != nullptr) {
+      next = curr->next;
+      if (curr->data == value) {
+        if (curr == tail) tail = prev;
+        prev->next = curr->next;
+        delete curr;
+        curr = next;
+        sizeLL--;
+      } else {
+        prev = curr;
+        curr = next;
+      }
+    }
+
+    if (head == nullptr) tail = head;
+  }
+
+  void removeIt(Iterator it) {
     Node* node = it.current;
-    if (node == nullptr) throw std::runtime_error("Node is null");
+    if (node == nullptr) throw runtime_error("List is empty");
     if (node == head) {
-      pop_front();
+      popFront();
       return;
     }
     Node* current = head;
     while (current != nullptr && current->next != node) {
       current = current->next;
     }
-    if (current == nullptr) throw std::runtime_error("Node not found");
+    if (current == nullptr) throw runtime_error("Node not found");
     current->next = node->next;
     if (node == tail) {
       tail = current;
@@ -222,14 +278,14 @@ class LINKEDLIST {
     --sizeLL;
   }
 
-  void erase(size_t index) {
-    if (index >= sizeLL) throw std::runtime_error("Index out of bounds");
+  void removeAt(int index) {
+    if (index >= sizeLL) throw runtime_error("Index out of bounds");
     if (index == 0) {
-      pop_front();
+      popFront();
       return;
     }
     Node* current = head;
-    for (size_t i = 0; i < index - 1; ++i) {
+    for (int i = 0; i < index - 1; ++i) {
       current = current->next;
     }
     Node* temp = current->next;
@@ -253,7 +309,7 @@ class LINKEDLIST {
   }
 
   // Utility functions
-  size_t size() const { return sizeLL; }
+  int size() const { return sizeLL; }
   bool empty() const { return sizeLL == 0; }
 
   // Iterator

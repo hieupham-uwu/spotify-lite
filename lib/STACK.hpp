@@ -14,32 +14,32 @@ template <typename T>
 
 */
 
-class STACK {
+class Stack {
  private:
-  LINKEDLIST<T> list;
+  LinkedList<T> list;
 
  public:
-  STACK() = default;
-  ~STACK() = default;
+  Stack() = default;
+  ~Stack() = default;
   // View elements
   T top() const {
-    if (list.empty()) throw std::runtime_error("Stack is empty");
+    if (list.empty()) throw runtime_error("Stack is empty");
     return list.front();
   }
 
   // Add elements
-  void push(const T& value) { list.push_front(value); }
+  void push(const T& value) { list.insertFront(value); }
 
   // Remove elements
   void pop() {
-    if (list.empty()) throw std::runtime_error("Stack is empty");
-    list.pop_front();
+    if (list.empty()) throw runtime_error("Stack is empty");
+    list.popFront();
   }
 
   // Utility functions
-  size_t size() const { return list.size(); }
+  int size() const { return list.size(); }
   bool empty() const { return list.empty(); }
 
-  // Clear the stack
+  // Clear the Stack
   void clear() { list.clear(); }
 };

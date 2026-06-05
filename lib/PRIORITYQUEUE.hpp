@@ -3,28 +3,29 @@
 #include <functional>
 #include <stdexcept>
 #include <vector>
+using namespace std;
 
-template <typename T, typename Comp = std::less<T>>
+template <typename T, typename Comp = less<T>>
 
 /*
  Usage:
     1. Default is a max-heap:
-        PRIORITYQUEUE<int> pq;
+        PriorityQueue<int> pq;
     2. For a min-heap:
-        PRIORITYQUEUE<int, std::greater<int>> pq;
+        PriorityQueue<int, greater<int>> pq;
 
     All functions:
-+ View elements: top()
-+ Add elements: push()
-+ Remove elements: pop()
++ View elements: peek()
++ Add elements: insert()
++ Remove elements: extract()
 + Utility functions: empty(), size()
 + Clear the queue: clear()
 
 */
 
-class PRIORITYQUEUE {
+class PriorityQueue {
  private:
-  std::vector<T> data;
+  vector<T> data;
   Comp cmp;
 
   int parent(int i) const { return (i - 1) / 2; }
@@ -33,7 +34,7 @@ class PRIORITYQUEUE {
 
   void heapifyUp(int i) {
     while (i > 0 && cmp(data[parent(i)], data[i])) {
-      std::swap(data[parent(i)], data[i]);
+      swap(data[parent(i)], data[i]);
       i = parent(i);
     }
   }
@@ -48,45 +49,47 @@ class PRIORITYQUEUE {
     if (r < n && cmp(data[best], data[r])) best = r;
 
     if (best != i) {
-      std::swap(data[i], data[best]);
+      swap(data[i], data[best]);
       heapifyDown(best);
     }
   }
 
  public:
-  explicit PRIORITYQUEUE(Comp c = Comp{}) : cmp(c) {}
+  explicit PriorityQueue(Comp c = Comp{}) : cmp(c) {}
 
-  explicit PRIORITYQUEUE(const std::vector<T>& vec, Comp c = Comp{})
+  explicit PriorityQueue(const vector<T>& vec, Comp c = Comp{})
       : data(vec), cmp(c) {
     int n = (int)data.size();
     for (int i = n / 2 - 1; i >= 0; --i) heapifyDown(i);
   }
 
   // Add elements
-  void push(const T& item) {
+  void insert(const T& item) {
     data.push_back(item);
     heapifyUp((int)data.size() - 1);
   }
 
   // Remove elements
-  void pop() {
-    if (empty()) throw std::runtime_error("PRIORITYQUEUE is empty");
-
-    std::swap(data[0], data.back());
+  T extract() {
+    if (empty()) throw runtime_error("PriorityQueue is empty");
+    T top = peek();
+    swap(data[0], data.back());
     data.pop_back();
 
     if (!empty()) heapifyDown(0);
+
+    return top;
   }
 
   // View elements
-  const T& top() const {
-    if (empty()) throw std::runtime_error("PRIORITYQUEUE is empty");
+  const T& peek() const {
+    if (empty()) throw runtime_error("PriorityQueue is empty");
     return data[0];
   }
 
   // Utility functions
   bool empty() const { return data.empty(); }
-  size_t size() const { return data.size(); }
+  int size() const { return data.size(); }
 
   // Clear the queue
   void clear() { data.clear(); }
