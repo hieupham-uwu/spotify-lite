@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+using namespace std;
 
 #include "../services/ArtistManager.hpp"
 #include "../services/MusicLibrary.hpp"
@@ -18,24 +19,24 @@ class ConsoleUI {
 
   struct MenuItem {
     int id;
-    std::string title;
+    string title;
   };
 
-  std::vector<MenuItem> menuItems;
+  vector<MenuItem> menuItems;
   int selectedIndex;
 
   // Các hàm tiện ích nhập xuất
-  static int readInt(const std::string& prompt);
-  static std::string readLine(const std::string& prompt);
+  static int readInt(const string& prompt);
+  static string readLine(const string& prompt);
   static int readNavigationKey();
 
   // Các hàm tiện ích vẽ giao diện
   static void clearScreen();
   static void pauseScreen();
-  static std::string fitText(const std::string& text, int width);
-  static std::string repeat(char ch, int count);
-  static std::string centerText(const std::string& text, int width);
-  static std::string progressBar(int percent, int width);
+  static string fitText(const string& text, int width);
+  static string repeat(char ch, int count);
+  static string centerText(const string& text, int width);
+  static string progressBar(int percent, int width);
 
   // Vẽ layout
   void initMenuItems();
@@ -43,9 +44,9 @@ class ConsoleUI {
   void renderHeader() const;
   void renderSidebarAndPlayer() const;
   void renderFooter() const;
-  void renderContentTitle(const std::string& title) const;
-  void renderSongTable(const std::vector<Song>& songs, int limit = -1) const;
-  std::vector<Song> getAllSongsVector() const;
+  void renderContentTitle(const string& title) const;
+  void renderSongTable(const vector<Song>& songs, int limit = -1) const;
+  vector<Song> getAllSongsVector() const;
 
   // Handlers - Tích hợp với Backend Services
   void handleShowAllSongs();
@@ -83,7 +84,7 @@ class ConsoleUI {
 
  public:
   ConsoleUI();
-  bool init(const std::string& dataFile);
+  bool init(const string& dataFile);
   void run();
 };
 

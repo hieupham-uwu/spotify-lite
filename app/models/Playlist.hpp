@@ -23,7 +23,7 @@ struct Playlist {
       return false;
     }
 
-    songIds.push_back(songId);
+    songIds.insertBack(songId);
     return true;
   }
 
@@ -34,7 +34,7 @@ struct Playlist {
       return false;
     }
 
-    songIds.erase(it);
+    songIds.removeIt(it);
     return true;
   }
 

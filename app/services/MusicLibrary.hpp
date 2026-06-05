@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include<vector>
+#include <vector>
 
 #include "../../lib/AVL.hpp"
 #include "../../lib/HASHTABLE.hpp"
@@ -16,7 +16,7 @@ class MusicLibrary {
   HashTable<string, Song> songsByID;
   HashTable<string, Song> songsByName;
   AVL<Song> allSongs;
-  size_t songCount = 0;
+  int songCount = 0;
 
   void syncSongIndexes(const Song& song);  // Update Song Table
   void updateSongInAllSongs(
@@ -25,6 +25,7 @@ class MusicLibrary {
  public:
   MusicLibrary();
   bool loadFromFile(const string& fileName);
+  bool saveToFile(const string& fileName);
 
   void addSong(const Song& song);
 
@@ -36,7 +37,5 @@ class MusicLibrary {
 
   const AVL<Song>& getAllSongs() const;
   vector<Song> getAllSongsVector() const;
-  size_t size() const;
-  
-  
+  int size() const;
 };

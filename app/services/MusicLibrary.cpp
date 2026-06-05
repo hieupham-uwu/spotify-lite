@@ -38,6 +38,20 @@ bool MusicLibrary::loadFromFile(const string& fileName) {
   return numberOfLoadSong > 0;
 }
 
+bool MusicLibrary::saveToFile(const string& fileName) {
+  fstream f(fileName, ios::out);
+  if (!f) {
+    cout << "Can not open file songs \n";
+    return false;
+  }
+  vector<Song> songs = allSongs.toVector();
+  for (auto& x : songs) {
+    f << x << "\n";
+  }
+
+  return true;
+}
+
 void MusicLibrary::addSong(const Song& s) {
   if (!songsByID.contains(s.id)) {
     allSongs.insert(s);
@@ -76,14 +90,10 @@ bool MusicLibrary::increaseLikeCount(string id) {
   return true;
 }
 
-const AVL<Song>& MusicLibrary::getAllSongs() const {
-  return allSongs;
-}
+const AVL<Song>& MusicLibrary::getAllSongs() const { return allSongs; }
 
 vector<Song> MusicLibrary::getAllSongsVector() const {
   return allSongs.toVector();
 }
 
-size_t MusicLibrary::size() const {
-  return songCount;
-}
+int MusicLibrary::size() const { return songCount; }

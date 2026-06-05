@@ -2,12 +2,13 @@
 
 #include <string>
 
-#include "../../lib/LINKEDLIST.hpp"
+#include "../../lib/LinkedList.hpp"
 #include "Song.hpp"
+using namespace std;
 
 struct Artist {
   std::string name;
-  LINKEDLIST<Song> songs;
+  LinkedList<Song> songs;
 
   Artist();
   Artist(std::string name) { this->name = name; }
