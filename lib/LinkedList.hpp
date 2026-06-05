@@ -231,7 +231,7 @@ class LinkedList {
     --sizeLL;
   }
 
-  void remove(int value) {
+  void remove(T value) {
     if (sizeLL == 0) return;
     while (head && head->data == value) {
       popFront();

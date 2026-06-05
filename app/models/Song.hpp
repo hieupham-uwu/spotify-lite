@@ -1,13 +1,14 @@
 #pragma once
 
+#include <fstream>
 #include <string>
-#include <ostream>
+using namespace std;
 
 struct Song {
-  std::string id;
-  std::string title;
-  std::string artist;
-  std::string genre;
+  string id;
+  string title;
+  string artist;
+  string genre;
   int duration;  // seconds
   int playCount;
   int likeCount;
@@ -20,8 +21,8 @@ struct Song {
     this->likeCount = 0;
     this->playCount = 0;
   }
-  Song(std::string id, std::string title, std::string artist, std::string genre,
-       int duration, int playCount = 0, int likeCount = 0) {
+  Song(string id, string title, string artist, string genre, int duration,
+       int playCount = 0, int likeCount = 0) {
     this->id = id;
     this->title = title;
     this->artist = artist;
@@ -35,7 +36,7 @@ struct Song {
   bool operator<(const Song& other) const { return id < other.id; }
   bool operator>(const Song& other) const { return id > other.id; }
 
-  friend std::ostream& operator<<(std::ostream& os, const Song& s) {
+  friend ostream& operator<<(ostream& os, const Song& s) {
     os << s.id << "|" << s.title << "|" << s.artist << "|" << s.genre << "|"
        << s.duration << "|" << s.playCount << "|" << s.likeCount;
     return os;

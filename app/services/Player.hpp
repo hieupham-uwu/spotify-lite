@@ -1,19 +1,22 @@
 #pragma once
 #include <algorithm>
 #include <ctime>
+#include <iostream>
 #include <random>
 #include <vector>
 
-#include "../../lib/LINKEDLIST.hpp"
-#include "../../lib/STACK.hpp"
+#include "../../lib/LinkedList.hpp"
+#include "../../lib/Stack.hpp"
 #include "../models/Song.hpp"
+#include "../utilities/StringUtils.hpp"
 #include "MusicLibrary.hpp"
 
+using namespace std;
 class Player {
  private:
-  std::vector<Song*> originalQueue;
-  std::vector<Song*> playbackQueue;
-  STACK<Song*> history;
+  vector<Song*> originalQueue;
+  vector<Song*> playbackQueue;
+  Stack<Song*> history;
 
   Song* currentSong;
   int currentIndex;
@@ -24,7 +27,7 @@ class Player {
  public:
   Player();
 
-  void loadPlaylist(const LINKEDLIST<Song*>& playlist);
+  void loadPlaylist(const LinkedList<Song*>& playlist);
 
   bool play(MusicLibrary& library);
   bool next(MusicLibrary& library);

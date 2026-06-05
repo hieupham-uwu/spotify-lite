@@ -1,16 +1,12 @@
 #include "Player.hpp"
 
-#include <iostream>
-
-#include "../utilities/StringUtils.hpp"
-
 Player::Player() {
   currentIndex = 0;
   currentSong = nullptr;
   isShuffle = false;
 }
 
-void Player::loadPlaylist(const LINKEDLIST<Song*>& playlist) {
+void Player::loadPlaylist(const LinkedList<Song*>& playlist) {
   originalQueue.clear();
   playbackQueue.clear();
 
@@ -44,7 +40,7 @@ void Player::toggleShuffle() {
     cout << "Shuffle is OFF.\n";
     playbackQueue = originalQueue;
 
-    for (size_t i = 0; i < playbackQueue.size(); i++) {
+    for (int i = 0; i < playbackQueue.size(); i++) {
       if (playbackQueue[i]->id == currentSong->id) {
         currentIndex = i;
         break;
@@ -64,7 +60,7 @@ void Player::applyShuffle() {
     swap(playbackQueue[i], playbackQueue[j]);
   }
 
-  for (size_t i = 0; i < playbackQueue.size(); i++) {
+  for (int i = 0; i < playbackQueue.size(); i++) {
     if (playbackQueue[i]->id == playingNow->id) {
       swap(playbackQueue[0], playbackQueue[i]);
       break;
@@ -102,7 +98,7 @@ bool Player::back(MusicLibrary& library) {
   currentSong = history.top();
   history.pop();
 
-  for (size_t i = 0; i < playbackQueue.size(); i++) {
+  for (int i = 0; i < playbackQueue.size(); i++) {
     if (playbackQueue[i]->id == currentSong->id) {
       currentIndex = i;
       break;

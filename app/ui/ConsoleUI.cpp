@@ -25,6 +25,7 @@ const int RIGHT_W = SCREEN_W - SIDE_W - 3;
 ConsoleUI::ConsoleUI() : selectedIndex(0) { initMenuItems(); }
 
 bool ConsoleUI::init(const string& dataFile) {
+  filePath = dataFile;
   bool ok = library.loadFromFile(dataFile);
   rebuildIndexes();
   return ok;
@@ -300,7 +301,7 @@ void ConsoleUI::handleCreatePlaylist() {
 
 void ConsoleUI::handleShowAllPlaylists() {
   renderContentTitle("YOUR PLAYLISTS");
-  LINKEDLIST<string> names = playlistManager.getAllPlaylistNames();
+  LinkedList<string> names = playlistManager.getAllPlaylistNames();
   if (names.empty()) {
     cout << "  No playlists found.\n";
   } else {
@@ -377,10 +378,10 @@ void ConsoleUI::handlePlayPlaylist() {
   }
 
   // Convert LinkedList<string> (ID) to LinkedList<Song*>
-  LINKEDLIST<Song*> songQueue;
+  LinkedList<Song*> songQueue;
   for (string id : p->songIds) {
     Song* s = library.findById(id);
-    if (s) songQueue.push_back(s);
+    if (s) songQueue.insertBack(s);
   }
 
   player.loadPlaylist(songQueue);
@@ -420,6 +421,7 @@ void ConsoleUI::handleLikeCurrentSong() {
   renderContentTitle("LIKE CURRENT SONG");
   if (player.likeCurrentSong(library)) {
     cout << "  You liked: " << player.getCurrentSong()->title << "!\n";
+    library.saveToFile(filePath);
   } else {
     cout << "  No song is playing right now.\n";
   }
@@ -428,7 +430,7 @@ void ConsoleUI::handleLikeCurrentSong() {
 
 void ConsoleUI::handleTopByPlays() {
   renderContentTitle("RANKING - TOP 10 BY PLAYS");
-  LINKEDLIST<Song> topList = RankingService::getTopByPlayCount(library, 10);
+  LinkedList<Song> topList = RankingService::getTopByPlayCount(library, 10);
   vector<Song> vec;
   for (Song s : topList) vec.push_back(s);
   renderSongTable(vec);
@@ -437,7 +439,7 @@ void ConsoleUI::handleTopByPlays() {
 
 void ConsoleUI::handleTopByLikes() {
   renderContentTitle("RANKING - TOP 10 BY LIKES");
-  LINKEDLIST<Song> topList = RankingService::getTopByLikeCount(library, 10);
+  LinkedList<Song> topList = RankingService::getTopByLikeCount(library, 10);
   vector<Song> vec;
   for (Song s : topList) vec.push_back(s);
   renderSongTable(vec);
@@ -446,7 +448,7 @@ void ConsoleUI::handleTopByLikes() {
 
 void ConsoleUI::handleShowArtistsAZ() {
   renderContentTitle("ALL ARTISTS (A-Z)");
-  LINKEDLIST<string> artists = artistManager.getArtistsAZ();
+  LinkedList<string> artists = artistManager.getArtistsAZ();
   int idx = 1;
   for (string name : artists) {
     cout << "  " << idx++ << ". " << name << "\n";
@@ -457,7 +459,7 @@ void ConsoleUI::handleShowArtistsAZ() {
 void ConsoleUI::handleSearchSongsByArtist() {
   renderContentTitle("SEARCH SONGS BY ARTIST");
   string name = readLine("  Artist name: ");
-  LINKEDLIST<string> songIds = artistManager.getSongIdsByArtist(name);
+  LinkedList<string> songIds = artistManager.getSongIdsByArtist(name);
 
   if (songIds.empty()) {
     cout << "  No songs found for artist: " << name << "\n";
@@ -475,7 +477,7 @@ void ConsoleUI::handleSearchSongsByArtist() {
 void ConsoleUI::handleRecommendByGenre() {
   renderContentTitle("DISCOVER BY GENRE");
   string genre = readLine("  Enter Genre (e.g. Pop, EDM): ");
-  LINKEDLIST<Song> recs =
+  LinkedList<Song> recs =
       RecommendationService::recommendByGenre(library, genre, 10);
 
   vector<Song> vec;
@@ -490,7 +492,7 @@ void ConsoleUI::handleRecommendByCurrentSong() {
   if (!curr) {
     cout << "  Play a song first to get recommendations!\n";
   } else {
-    LINKEDLIST<Song> recs =
+    LinkedList<Song> recs =
         RecommendationService::recommendSimilarSongs(library, curr->id, 10);
     vector<Song> vec;
     for (Song s : recs) vec.push_back(s);
@@ -504,7 +506,7 @@ void ConsoleUI::handleRecommendByCurrentSong() {
 
 void ConsoleUI::handleHotSongsSuggestion() {
   renderContentTitle("DISCOVER - HOTTEST TRENDING SONGS");
-  LINKEDLIST<Song> recs = RecommendationService::recommendHotSongs(library, 10);
+  LinkedList<Song> recs = RecommendationService::recommendHotSongs(library, 10);
   vector<Song> vec;
   for (Song s : recs) vec.push_back(s);
 
