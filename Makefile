@@ -1,7 +1,18 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 
-TARGET = spotify_lite.exe
+# Detect OS
+ifeq ($(OS),Windows_NT)
+    TARGET = spotify_lite.exe
+    RM = del /f /q
+    RUN = $(TARGET)
+    FIX_PATH = $(subst /,\,$1)
+else
+    TARGET = spotify_lite
+    RM = rm -f
+    RUN = ./$(TARGET)
+    FIX_PATH = $1
+endif
 
 SRCS = app/main.cpp \
        app/services/MusicLibrary.cpp \
@@ -24,8 +35,7 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	del /f /q $(subst /,\,$(OBJS)) 2>nul & exit 0
-	if exist $(TARGET) del /f /q $(TARGET)
+	$(RM) $(call FIX_PATH,$(OBJS)) $(TARGET)
 
 run: $(TARGET)
-	$(TARGET)
+	$(RUN)
