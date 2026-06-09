@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "../../lib/AVL.hpp"
-#include "../../lib/HASHTABLE.hpp"
+#include "../../lib/HashTable.hpp"
 #include "../models/Song.hpp"
 #include "../utilities/StringUtils.hpp"
 

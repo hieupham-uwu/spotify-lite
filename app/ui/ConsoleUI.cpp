@@ -296,14 +296,17 @@ void ConsoleUI::handleSearchByTitle() {
 
 void ConsoleUI::handleCreatePlaylist() {
   renderContentTitle("CREATE PLAYLIST");
+
   string name = readLine("  Enter playlist name: ");
+
   if (playlistManager.createPlaylist(name)) {
     cout << "  Playlist created successfully.\n";
     playlistManager.saveToFile(playlistPath);
   } else {
-    cout << "  Cannot create playlist. Name may be empty or already exists.\n";
-    pauseScreen();
+    cout << "  Cannot create playlist. Name may be empty, invalid, or already exists.\n";
   }
+
+  pauseScreen();
 }
 
 void ConsoleUI::handleShowAllPlaylists() {
@@ -322,16 +325,40 @@ void ConsoleUI::handleShowAllPlaylists() {
 
 void ConsoleUI::handleAddSongToPlaylist() {
   renderContentTitle("ADD SONG TO PLAYLIST");
+
   string playlistName = readLine("  Playlist name: ");
   string id = readLine("  Song ID: ");
+
+  Playlist* playlist = playlistManager.findPlaylist(playlistName);
+
+  if (playlist == nullptr) {
+    cout << "  Failed. Playlist not found.\n";
+    pauseScreen();
+    return;
+  }
+
+  Song* song = library.findById(id);
+
+  if (song == nullptr) {
+    cout << "  Failed. Song ID invalid.\n";
+    pauseScreen();
+    return;
+  }
+
+  if (playlist->containsSongId(id)) {
+    cout << "  This song already exists in the playlist.\n";
+    pauseScreen();
+    return;
+  }
 
   if (playlistManager.addSongToPlaylist(playlistName, id, library)) {
     cout << "  Song added successfully!\n";
     playlistManager.saveToFile(playlistPath);
   } else {
-    cout << "  Failed. Playlist not found or Song ID invalid.\n";
-    pauseScreen();
+    cout << "  Failed. Could not add song to playlist.\n";
   }
+
+  pauseScreen();
 }
 
 void ConsoleUI::handleShowPlaylist() {
@@ -357,25 +384,23 @@ void ConsoleUI::handleRemoveSongFromPlaylist() {
   renderContentTitle("REMOVE SONG");
   string name = readLine("  Playlist name: ");
   string id = readLine("  Song ID to remove: ");
-  if (playlistManager.removeSongFromPlaylist(name, id)) {
+  if (playlistManager.removeSongFromPlaylist(name, id))
     cout << "  Song removed.\n";
     playlistManager.saveToFile(playlistPath);
-  } else {
+  else
     cout << "  Cannot remove song. Check playlist name or Song ID.\n";
-    pauseScreen();
-  }
+  pauseScreen();
 }
 
 void ConsoleUI::handleClearPlaylist() {
   renderContentTitle("CLEAR PLAYLIST");
   string name = readLine("  Playlist name: ");
-  if (playlistManager.clearPlaylist(name)) {
+  if (playlistManager.clearPlaylist(name))
     cout << "  Playlist cleared.\n";
     playlistManager.saveToFile(playlistPath);
-  } else {
+  else
     cout << "  Playlist not found.\n";
-    pauseScreen();
-  }
+  pauseScreen();
 }
 
 void ConsoleUI::handlePlayPlaylist() {
@@ -473,22 +498,45 @@ void ConsoleUI::handleShowArtistsAZ() {
 
 void ConsoleUI::handleSearchSongsByArtist() {
   renderContentTitle("SEARCH SONGS BY ARTIST");
+
+  LinkedList<string> artists = artistManager.getArtistsAZ();
+
+  cout << "  AVAILABLE ARTISTS (A-Z)\n";
+  cout << "  +----+------------------------------+\n";
+  cout << "  | No | Artist                       |\n";
+  cout << "  +----+------------------------------+\n";
+
+  int index = 1;
+  for (string artist : artists) {
+    cout << "  | " << setw(2) << right << index++ << " "
+         << "| " << left << setw(28) << fitText(artist, 28)
+         << " |\n";
+  }
+
+  cout << "  +----+------------------------------+\n\n";
+
   string name = readLine("  Artist name: ");
   LinkedList<string> songIds = artistManager.getSongIdsByArtist(name);
 
   if (songIds.empty()) {
-    cout << "  No songs found for artist: " << name << "\n";
+    cout << "\n  No songs found for artist: " << name << "\n";
   } else {
     vector<Song> vec;
+
     for (string id : songIds) {
       Song* s = library.findById(id);
-      if (s) vec.push_back(*s);
+
+      if (s) {
+        vec.push_back(*s);
+      }
     }
+
+    cout << "\n";
     renderSongTable(vec);
   }
+
   pauseScreen();
 }
-
 void ConsoleUI::handleRecommendByGenre() {
   renderContentTitle("DISCOVER BY GENRE");
   string genre = readLine("  Enter Genre (e.g. Pop, EDM): ");

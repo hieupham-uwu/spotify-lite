@@ -1,12 +1,33 @@
 #include "StringUtils.hpp"
-
+#include <cctype>
 string lowerStr(string s) {
   for (auto& x : s) {
     x = tolower(x);
   }
   return s;
 }
+string normalizeDisplayName(const string& s) {
+  string result;
+  bool previousWasSpace = false;
 
+  for (char ch : s) {
+    if (isspace((unsigned char)ch)) {
+      if (!result.empty() && !previousWasSpace) {
+        result += ' ';
+        previousWasSpace = true;
+      }
+    } else {
+      result += ch;
+      previousWasSpace = false;
+    }
+  }
+
+  if (!result.empty() && result.back() == ' ') {
+    result.pop_back();
+  }
+
+  return result;
+}
 vector<string> trimString(string s, char sep) {
   s = s + sep;
   vector<string> ans;

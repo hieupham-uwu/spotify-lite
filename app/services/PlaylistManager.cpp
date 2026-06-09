@@ -1,15 +1,15 @@
 #include "PlaylistManager.hpp"
-
+#include "../utilities/StringUtils.hpp"
 #include <cctype>
 #include <fstream>
 #include <sstream>
 using namespace std;
 
 string PlaylistManager::normalizeName(const string& name) const {
-    string result = name;
+    string result = normalizeDisplayName(name);
 
     for (int i = 0; i < (int)result.length(); i++) {
-        result[i] = (char)tolower(result[i]);
+        result[i] = (char)tolower((unsigned char)result[i]);
     }
 
     return result;
@@ -19,19 +19,22 @@ PlaylistManager::PlaylistManager() {
 }
 
 bool PlaylistManager::createPlaylist(const string& playlistName) {
-    if (playlistName.empty() || playlistName.find('|') != string::npos) {
-    return false;
+    string cleanName = normalizeDisplayName(playlistName);
+
+    if (cleanName.empty() || cleanName.find('|') != string::npos) {
+        return false;
     }
-    string key = normalizeName(playlistName);
+
+    string key = normalizeName(cleanName);
 
     if (playlists.contains(key)) {
         return false;
     }
 
-    Playlist newPlaylist(playlistName);
+    Playlist newPlaylist(cleanName);
 
     playlists.insert(key, newPlaylist);
-    playlistNames.insertBack(playlistName);
+    playlistNames.insertBack(cleanName);
 
     return true;
 }
@@ -171,7 +174,7 @@ bool PlaylistManager::loadFromFile(
         string playlistName;
 
         getline(ss, playlistName, '|');
-
+        playlistName = normalizeDisplayName(playlistName);
         if (playlistName.empty()) {
             continue;
         }
