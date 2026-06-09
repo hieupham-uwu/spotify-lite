@@ -384,22 +384,28 @@ void ConsoleUI::handleRemoveSongFromPlaylist() {
   renderContentTitle("REMOVE SONG");
   string name = readLine("  Playlist name: ");
   string id = readLine("  Song ID to remove: ");
-  if (playlistManager.removeSongFromPlaylist(name, id))
+
+  if (playlistManager.removeSongFromPlaylist(name, id)) {
     cout << "  Song removed.\n";
     playlistManager.saveToFile(playlistPath);
-  else
+  } else {
     cout << "  Cannot remove song. Check playlist name or Song ID.\n";
+  }
+
   pauseScreen();
 }
 
 void ConsoleUI::handleClearPlaylist() {
   renderContentTitle("CLEAR PLAYLIST");
   string name = readLine("  Playlist name: ");
-  if (playlistManager.clearPlaylist(name))
+
+  if (playlistManager.clearPlaylist(name)) {
     cout << "  Playlist cleared.\n";
     playlistManager.saveToFile(playlistPath);
-  else
+  } else {
     cout << "  Playlist not found.\n";
+  }
+
   pauseScreen();
 }
 
