@@ -24,6 +24,18 @@ const int RIGHT_W = SCREEN_W - SIDE_W - 3;
 
 ConsoleUI::ConsoleUI() : selectedIndex(0) { initMenuItems(); }
 
+string ConsoleUI::getCurrentOS() const {
+#ifdef _WIN32
+  return "Windows";
+#elif __APPLE__
+  return "macOS";
+#elif __linux__
+  return "Linux";
+#else
+  return "Unknown OS";
+#endif
+}
+
 bool ConsoleUI::init(const string& dataFile) {
   filePath = dataFile;
   playlistPath = "app/data/playlists.txt";
@@ -189,7 +201,6 @@ void ConsoleUI::renderSidebarAndPlayer() const {
       string shuffleStatus = player.getShuffleState() ? "ON" : "OFF";
       right = "  Shuffle: " + shuffleStatus;
     } else if (i == 7 && current) {
-      // Giả lập thời gian đang chạy (Progress bar)
       right = "  " + progressBar(45, 30) + "  " +
               formatDuration(current->duration / 2) + " / " +
               formatDuration(current->duration);
@@ -202,10 +213,19 @@ void ConsoleUI::renderSidebarAndPlayer() const {
       right = "  " + repeat('-', RIGHT_W - 4);
     else if (i == 11)
       right = "  Controls:";
-    else if (i == 12)
-      right = "  [Up/Down/W/S] Navigate";
-    else if (i == 13)
-      right = "  [Enter/E] Select";
+    else if (i == 12) {
+      string opS = getCurrentOS();
+      if (opS == "Windows") {
+        right = "  [Up/Down] Navigate";
+      } else
+        right = "  [W/S] Navigate";
+    } else if (i == 13) {
+      string opS = getCurrentOS();
+      if (opS == "Windows") {
+        right = "  [Enter/E] Select";
+      } else
+        right = "  [E] Select";
+    }
 
     cout << "|" << fitText(left, SIDE_W) << "|" << fitText(right, RIGHT_W)
          << "|\n";
@@ -303,7 +323,8 @@ void ConsoleUI::handleCreatePlaylist() {
     cout << "  Playlist created successfully.\n";
     playlistManager.saveToFile(playlistPath);
   } else {
-    cout << "  Cannot create playlist. Name may be empty, invalid, or already exists.\n";
+    cout << "  Cannot create playlist. Name may be empty, invalid, or already "
+            "exists.\n";
   }
 
   pauseScreen();
@@ -324,41 +345,103 @@ void ConsoleUI::handleShowAllPlaylists() {
 }
 
 void ConsoleUI::handleAddSongToPlaylist() {
-  renderContentTitle("ADD SONG TO PLAYLIST");
+  string playlistName = "";
+  string songId = "";
 
-  string playlistName = readLine("  Playlist name: ");
-  string id = readLine("  Song ID: ");
+  while (true) {
+    clearScreen();
 
-  Playlist* playlist = playlistManager.findPlaylist(playlistName);
+    cout << "+" << repeat('-', SCREEN_W - 2) << "+\n";
+    cout << "|" << centerText("ADD SONG TO PLAYLIST", SCREEN_W - 2) << "|\n";
+    cout << "+" << repeat('-', SCREEN_W - 2) << "+\n";
 
-  if (playlist == nullptr) {
-    cout << "  Failed. Playlist not found.\n";
-    pauseScreen();
-    return;
+    int leftW = 45;
+    int rightW = SCREEN_W - leftW - 3;
+
+    cout << "|" << fitText("  ACTIONS & INPUT", leftW) << "|"
+         << fitText("  REFERENCE LISTS", rightW) << "|\n";
+    cout << "+" << repeat('-', leftW) << "+" << repeat('-', rightW) << "+\n";
+
+    LinkedList<string> playlists = playlistManager.getAllPlaylistNames();
+    LinkedList<Song> topSongs = RankingService::getTopByPlayCount(library, 5);
+
+    vector<string> leftLines = {
+        "",
+        "  [1] Enter Playlist Name: ",
+        "      => " + (playlistName.empty() ? "<EMPTY>" : playlistName),
+        "",
+        "  [2] Enter Song ID: ",
+        "      => " + (songId.empty() ? "<EMPTY>" : songId),
+        "",
+        "  [S] Submit / Add Song",
+        "  [0] Cancel / Back"};
+
+    vector<string> rightLines;
+
+    rightLines.push_back("  --- YOUR PLAYLISTS ---");
+    if (playlists.empty()) {
+      rightLines.push_back("  (No playlists found)");
+    } else {
+      int idx = 1;
+      for (string name : playlists) {
+        if (idx > 6) {
+          rightLines.push_back("  ... and more");
+          break;
+        }
+        rightLines.push_back("  " + to_string(idx++) + ". " + name);
+      }
+    }
+
+    rightLines.push_back("");
+
+    rightLines.push_back("  --- POPULAR SONGS ---");
+    if (topSongs.empty()) {
+      rightLines.push_back("  (No songs found)");
+    } else {
+      int idx = 1;
+      for (Song s : topSongs) {
+        string songDisplay = fitText(s.title, 25);
+        rightLines.push_back("  " + to_string(idx++) + ". " + songDisplay +
+                             " (ID: " + s.id + ")");
+      }
+    }
+
+    int maxLines = max((int)leftLines.size(), (int)rightLines.size());
+    maxLines = max(maxLines, 12);
+
+    for (int i = 0; i < maxLines; ++i) {
+      string l = (i < (int)leftLines.size()) ? leftLines[i] : "";
+      string r = (i < (int)rightLines.size()) ? rightLines[i] : "";
+      cout << "|" << fitText(l, leftW) << "|" << fitText(r, rightW) << "|\n";
+    }
+    cout << "+" << repeat('-', leftW) << "+" << repeat('-', rightW) << "+\n";
+
+    string choice = readLine("\n  Enter your choice: ");
+
+    if (choice == "0") {
+      break;
+    } else if (choice == "1") {
+      playlistName = readLine("  -> Input Playlist Name: ");
+    } else if (choice == "2") {
+      songId = readLine("  -> Input Song ID: ");
+    } else if (choice == "s" || choice == "S") {
+      if (playlistName.empty() || songId.empty()) {
+        cout << "  Error: Playlist Name and Song ID cannot be empty.\n";
+        pauseScreen();
+      } else {
+        if (playlistManager.addSongToPlaylist(playlistName, songId, library)) {
+          cout << "  Success: Song added successfully!\n";
+          songId = "";
+        } else {
+          cout << "  Failed. Playlist not found or Song ID invalid.\n";
+        }
+        pauseScreen();
+      }
+    } else {
+      cout << "  Invalid choice. Please try again.\n";
+      pauseScreen();
+    }
   }
-
-  Song* song = library.findById(id);
-
-  if (song == nullptr) {
-    cout << "  Failed. Song ID invalid.\n";
-    pauseScreen();
-    return;
-  }
-
-  if (playlist->containsSongId(id)) {
-    cout << "  This song already exists in the playlist.\n";
-    pauseScreen();
-    return;
-  }
-
-  if (playlistManager.addSongToPlaylist(playlistName, id, library)) {
-    cout << "  Song added successfully!\n";
-    playlistManager.saveToFile(playlistPath);
-  } else {
-    cout << "  Failed. Could not add song to playlist.\n";
-  }
-
-  pauseScreen();
 }
 
 void ConsoleUI::handleShowPlaylist() {
@@ -469,7 +552,12 @@ void ConsoleUI::handleLikeCurrentSong() {
     cout << "  You liked: " << player.getCurrentSong()->title << "!\n";
     library.saveToFile(filePath);
   } else {
-    cout << "  No song is playing right now.\n";
+    if (player.getCurrentSong() != nullptr) {
+      cout << "  You have already liked: " << player.getCurrentSong()->title
+           << ".\n";
+    } else {
+      cout << "  No song is currently playing.\n";
+    }
   }
   pauseScreen();
 }
@@ -515,8 +603,7 @@ void ConsoleUI::handleSearchSongsByArtist() {
   int index = 1;
   for (string artist : artists) {
     cout << "  | " << setw(2) << right << index++ << " "
-         << "| " << left << setw(28) << fitText(artist, 28)
-         << " |\n";
+         << "| " << left << setw(28) << fitText(artist, 28) << " |\n";
   }
 
   cout << "  +----+------------------------------+\n\n";

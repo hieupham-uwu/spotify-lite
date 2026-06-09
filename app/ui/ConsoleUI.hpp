@@ -27,6 +27,8 @@ class ConsoleUI {
   vector<MenuItem> menuItems;
   int selectedIndex;
 
+  string getCurrentOS() const;
+
   // Các hàm tiện ích nhập xuất
   static int readInt(const string& prompt);
   static string readLine(const string& prompt);

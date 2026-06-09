@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player() {
+Player::Player() : likedSongs(211) {
   currentIndex = 0;
   currentSong = nullptr;
   isShuffle = false;
@@ -112,8 +112,12 @@ bool Player::back(MusicLibrary& library) {
 
 bool Player::likeCurrentSong(MusicLibrary& library) {
   if (currentSong == nullptr) return false;
-  library.increaseLikeCount(currentSong->id);
-  return true;
+  if (likedSongs.find(currentSong) == nullptr) {
+    library.increaseLikeCount(currentSong->id);
+    likedSongs.insert(currentSong, true);
+    return true;
+  } else
+    return false;
 }
 
 void Player::showCurrentSong() const {

@@ -5,6 +5,7 @@
 #include <random>
 #include <vector>
 
+#include "../../lib/HashTable.hpp"
 #include "../../lib/LinkedList.hpp"
 #include "../../lib/Stack.hpp"
 #include "../models/Song.hpp"
@@ -17,7 +18,7 @@ class Player {
   vector<Song*> originalQueue;
   vector<Song*> playbackQueue;
   Stack<Song*> history;
-
+  HashTable<Song*, bool> likedSongs;
   Song* currentSong;
   int currentIndex;
   bool isShuffle;
