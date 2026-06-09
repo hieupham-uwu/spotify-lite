@@ -1,7 +1,8 @@
 #include "PlaylistManager.hpp"
 
 #include <cctype>
-
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 string PlaylistManager::normalizeName(const string& name) const {
@@ -18,10 +19,9 @@ PlaylistManager::PlaylistManager() {
 }
 
 bool PlaylistManager::createPlaylist(const string& playlistName) {
-    if (playlistName.empty()) {
-        return false;
+    if (playlistName.empty() || playlistName.find('|') != string::npos) {
+    return false;
     }
-
     string key = normalizeName(playlistName);
 
     if (playlists.contains(key)) {
@@ -148,4 +148,74 @@ LinkedList<string> PlaylistManager::getAllPlaylistNames() const {
 
 int PlaylistManager::playlistCount() const {
     return playlistNames.size();
+}
+bool PlaylistManager::loadFromFile(
+    const string& fileName,
+    MusicLibrary& library
+) {
+    fstream f(fileName, ios::in);
+
+    if (!f) {
+        return false;
+    }
+
+    string line;
+    int loadedCount = 0;
+
+    while (getline(f, line)) {
+        if (line.empty()) {
+            continue;
+        }
+
+        stringstream ss(line);
+        string playlistName;
+
+        getline(ss, playlistName, '|');
+
+        if (playlistName.empty()) {
+            continue;
+        }
+
+        if (!hasPlaylist(playlistName)) {
+            createPlaylist(playlistName);
+        }
+
+        string songId;
+
+        while (getline(ss, songId, '|')) {
+            if (!songId.empty() && library.findById(songId) != nullptr) {
+                addSongToPlaylist(playlistName, songId, library);
+            }
+        }
+
+        loadedCount++;
+    }
+
+    return loadedCount > 0;
+}
+
+bool PlaylistManager::saveToFile(const string& fileName) const {
+    fstream f(fileName, ios::out);
+
+    if (!f) {
+        return false;
+    }
+
+    for (string playlistName : playlistNames) {
+        const Playlist* playlist = findPlaylist(playlistName);
+
+        if (playlist == nullptr) {
+            continue;
+        }
+
+        f << playlist->name;
+
+        for (string songId : playlist->songIds) {
+            f << "|" << songId;
+        }
+
+        f << "\n";
+    }
+
+    return true;
 }
