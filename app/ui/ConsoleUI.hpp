@@ -13,6 +13,7 @@ using namespace std;
 class ConsoleUI {
  private:
   string filePath;
+  string playlistPath;
   MusicLibrary library;
   PlaylistManager playlistManager;
   Player player;
