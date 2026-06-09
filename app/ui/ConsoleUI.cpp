@@ -297,12 +297,13 @@ void ConsoleUI::handleSearchByTitle() {
 void ConsoleUI::handleCreatePlaylist() {
   renderContentTitle("CREATE PLAYLIST");
   string name = readLine("  Enter playlist name: ");
-  if (playlistManager.createPlaylist(name))
+  if (playlistManager.createPlaylist(name)) {
     cout << "  Playlist created successfully.\n";
     playlistManager.saveToFile(playlistPath);
-  else
+  } else {
     cout << "  Cannot create playlist. Name may be empty or already exists.\n";
-  pauseScreen();
+    pauseScreen();
+  }
 }
 
 void ConsoleUI::handleShowAllPlaylists() {
@@ -329,8 +330,8 @@ void ConsoleUI::handleAddSongToPlaylist() {
     playlistManager.saveToFile(playlistPath);
   } else {
     cout << "  Failed. Playlist not found or Song ID invalid.\n";
+    pauseScreen();
   }
-  pauseScreen();
 }
 
 void ConsoleUI::handleShowPlaylist() {
@@ -356,23 +357,25 @@ void ConsoleUI::handleRemoveSongFromPlaylist() {
   renderContentTitle("REMOVE SONG");
   string name = readLine("  Playlist name: ");
   string id = readLine("  Song ID to remove: ");
-  if (playlistManager.removeSongFromPlaylist(name, id))
+  if (playlistManager.removeSongFromPlaylist(name, id)) {
     cout << "  Song removed.\n";
     playlistManager.saveToFile(playlistPath);
-  else
+  } else {
     cout << "  Cannot remove song. Check playlist name or Song ID.\n";
-  pauseScreen();
+    pauseScreen();
+  }
 }
 
 void ConsoleUI::handleClearPlaylist() {
   renderContentTitle("CLEAR PLAYLIST");
   string name = readLine("  Playlist name: ");
-  if (playlistManager.clearPlaylist(name))
+  if (playlistManager.clearPlaylist(name)) {
     cout << "  Playlist cleared.\n";
     playlistManager.saveToFile(playlistPath);
-  else
+  } else {
     cout << "  Playlist not found.\n";
-  pauseScreen();
+    pauseScreen();
+  }
 }
 
 void ConsoleUI::handlePlayPlaylist() {
