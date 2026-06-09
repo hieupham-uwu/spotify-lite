@@ -386,6 +386,7 @@ void ConsoleUI::handlePlayPlaylist() {
 
   player.loadPlaylist(songQueue);
   if (player.play(library)) {
+    library.saveToFile(filePath);
     cout << "\n  Started playing playlist: " << name << "\n";
   }
   pauseScreen();
@@ -401,6 +402,7 @@ void ConsoleUI::handleNextSong() {
   renderContentTitle("NEXT SONG");
   if (player.next(library)) {
     cout << "  Skipped to next song.\n";
+    library.saveToFile(filePath);
   } else {
     cout << "  Cannot skip (Queue is empty).\n";
   }
@@ -411,6 +413,7 @@ void ConsoleUI::handleBackSong() {
   renderContentTitle("PREVIOUS SONG");
   if (player.back(library)) {
     cout << "  Returned to previous song.\n";
+    library.saveToFile(filePath);
   } else {
     cout << "  No history found.\n";
   }

@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 
-TARGET = spotify_lite
+TARGET = spotify_lite.exe
 
 SRCS = app/main.cpp \
        app/services/MusicLibrary.cpp \
@@ -24,8 +24,8 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
-	rm -f app/*.o app/services/*.o app/utilities/*.o app/ui/*.o
+	del /f /q $(subst /,\,$(OBJS)) 2>nul & exit 0
+	if exist $(TARGET) del /f /q $(TARGET)
 
 run: $(TARGET)
-	./$(TARGET)
+	$(TARGET)
