@@ -43,6 +43,8 @@ public:
 
     LinkedList<string> getAllPlaylistNames() const;
     int playlistCount() const;
+    bool loadFromFile(const string& fileName, MusicLibrary& library);
+    bool saveToFile(const string& fileName) const;
 };
 
 #endif
