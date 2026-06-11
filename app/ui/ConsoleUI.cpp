@@ -55,27 +55,36 @@ void ConsoleUI::rebuildIndexes() {
 
 void ConsoleUI::initMenuItems() {
   menuItems.clear();
-  menuItems.push_back({1, "Library: Show all songs"});
-  menuItems.push_back({2, "Search song by ID"});
-  menuItems.push_back({3, "Search song by title"});
-  menuItems.push_back({4, "Create playlist"});
-  menuItems.push_back({5, "Show all playlists"});
-  menuItems.push_back({6, "Add song to playlist"});
-  menuItems.push_back({7, "Show playlist details"});
-  menuItems.push_back({8, "Remove song from playlist"});
-  menuItems.push_back({9, "Play playlist"});
-  menuItems.push_back({10, "Toggle Shuffle"});
-  menuItems.push_back({11, "Next song"});
-  menuItems.push_back({12, "Previous song"});
-  menuItems.push_back({13, "Like current song"});
-  menuItems.push_back({14, "Ranking: Top plays"});
-  menuItems.push_back({15, "Ranking: Top likes"});
-  menuItems.push_back({16, "Artists: A-Z List"});
-  menuItems.push_back({17, "Artists: Songs by Artist"});
-  menuItems.push_back({18, "Discover: By Genre"});
-  menuItems.push_back({19, "Discover: Similar to playing"});
-  menuItems.push_back({20, "Discover: Hot Songs"});
-  menuItems.push_back({0, "Exit"});
+
+  MenuItem items[] = {
+      {1, "Library: Show all songs"},
+      {2, "Search song by ID"},
+      {3, "Search song by title"},
+      {4, "Create playlist"},
+      {5, "Show all playlists"},
+      {6, "Add song to playlist"},
+      {7, "Show playlist details"},
+      {8, "Remove song from playlist"},
+      {9, "Delete playlist"},
+      {10, "Play playlist"},
+      {11, "Toggle Shuffle"},
+      {12, "Next song"},
+      {13, "Previous song"},
+      {14, "Like current song"},
+      {15, "Ranking: Top plays"},
+      {16, "Ranking: Top likes"},
+      {17, "Artists: A-Z List"},
+      {18, "Artists: Songs by Artist"},
+      {19, "Discover: By Genre"},
+      {20, "Discover: Similar to playing"},
+      {21, "Discover: Hot Songs"},
+      {0, "Exit"}};
+
+  int n = sizeof(items) / sizeof(items[0]);
+
+  for (int i = 0; i < n; i++) {
+    menuItems.push_back(items[i]);
+  }
 }
 
 void ConsoleUI::clearScreen() {
@@ -483,6 +492,39 @@ void ConsoleUI::handleRemoveSongFromPlaylist() {
   pauseScreen();
 }
 
+void ConsoleUI::handleDeletePlaylist() {
+  renderContentTitle("DELETE PLAYLIST");
+
+  LinkedList<string> names = playlistManager.getAllPlaylistNames();
+
+  if (names.empty()) {
+    cout << "  No playlists found.\n";
+    pauseScreen();
+    return;
+  }
+
+  cout << "  Current playlists:\n\n";
+
+  int idx = 1;
+  for (string name : names) {
+    cout << "  " << idx++ << ". " << name << "\n";
+  }
+
+  string name = readLine("\n  Enter playlist name to delete: ");
+
+  if (playlistManager.deletePlaylist(name)) {
+    if (playlistManager.saveToFile(playlistPath)) {
+      cout << "  Playlist deleted successfully.\n";
+    } else {
+      cout << "  Playlist deleted, but failed to save playlist file.\n";
+    }
+  } else {
+    cout << "  Cannot delete playlist. Playlist not found.\n";
+  }
+
+  pauseScreen();
+}
+
 void ConsoleUI::handleClearPlaylist() {
   renderContentTitle("CLEAR PLAYLIST");
   string name = readLine("  Playlist name: ");
@@ -678,6 +720,7 @@ void ConsoleUI::handleHotSongsSuggestion() {
 
 void ConsoleUI::dispatchSelectedItem() {
   int id = menuItems[selectedIndex].id;
+
   switch (id) {
     case 1:
       handleShowAllSongs();
@@ -704,39 +747,42 @@ void ConsoleUI::dispatchSelectedItem() {
       handleRemoveSongFromPlaylist();
       break;
     case 9:
-      handlePlayPlaylist();
+      handleDeletePlaylist();
       break;
     case 10:
-      handleToggleShuffle();
+      handlePlayPlaylist();
       break;
     case 11:
-      handleNextSong();
+      handleToggleShuffle();
       break;
     case 12:
-      handleBackSong();
+      handleNextSong();
       break;
     case 13:
-      handleLikeCurrentSong();
+      handleBackSong();
       break;
     case 14:
-      handleTopByPlays();
+      handleLikeCurrentSong();
       break;
     case 15:
-      handleTopByLikes();
+      handleTopByPlays();
       break;
     case 16:
-      handleShowArtistsAZ();
+      handleTopByLikes();
       break;
     case 17:
-      handleSearchSongsByArtist();
+      handleShowArtistsAZ();
       break;
     case 18:
-      handleRecommendByGenre();
+      handleSearchSongsByArtist();
       break;
     case 19:
-      handleRecommendByCurrentSong();
+      handleRecommendByGenre();
       break;
     case 20:
+      handleRecommendByCurrentSong();
+      break;
+    case 21:
       handleHotSongsSuggestion();
       break;
     case 0:
