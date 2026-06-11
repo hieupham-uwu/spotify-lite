@@ -57,28 +57,17 @@ void ConsoleUI::initMenuItems() {
   menuItems.clear();
 
   MenuItem items[] = {
-      {1, "Library: Show all songs"},
-      {2, "Search song by ID"},
-      {3, "Search song by title"},
-      {4, "Create playlist"},
-      {5, "Show all playlists"},
-      {6, "Add song to playlist"},
-      {7, "Show playlist details"},
-      {8, "Remove song from playlist"},
-      {9, "Delete playlist"},
-      {10, "Play playlist"},
-      {11, "Toggle Shuffle"},
-      {12, "Next song"},
-      {13, "Previous song"},
-      {14, "Like current song"},
-      {15, "Ranking: Top plays"},
-      {16, "Ranking: Top likes"},
-      {17, "Artists: A-Z List"},
-      {18, "Artists: Songs by Artist"},
-      {19, "Discover: By Genre"},
-      {20, "Discover: Similar to playing"},
-      {21, "Discover: Hot Songs"},
-      {0, "Exit"}};
+      {1, "Library: Show all songs"}, {2, "Search song by ID"},
+      {3, "Search song by title"},    {4, "Create playlist"},
+      {5, "Show all playlists"},      {6, "Add song to playlist"},
+      {7, "Show playlist details"},   {8, "Remove song from playlist"},
+      {9, "Delete playlist"},         {10, "Play playlist"},
+      {11, "Toggle Shuffle"},         {12, "Next song"},
+      {13, "Previous song"},          {14, "Like current song"},
+      {15, "Ranking: Top plays"},     {16, "Ranking: Top likes"},
+      {17, "Artists: A-Z List"},      {18, "Artists: Songs by Artist"},
+      {19, "Discover: By Genre"},     {20, "Discover: Similar to playing"},
+      {21, "Discover: Hot Songs"},    {0, "Exit"}};
 
   int n = sizeof(items) / sizeof(items[0]);
 

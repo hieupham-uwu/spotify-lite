@@ -57,6 +57,7 @@ class ConsoleUI {
   void handleSearchById();
   void handleSearchByTitle();
   void handleCreatePlaylist();
+  void handleDeletePlaylist();
   void handleShowAllPlaylists();
   void handleAddSongToPlaylist();
   void handleShowPlaylist();
