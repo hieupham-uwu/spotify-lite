@@ -1,5 +1,5 @@
 S001|Shape of You|Ed Sheeran|Pop|233|1251|954
-S002|Perfect|Ed Sheeran|Pop|263|985|825
+S002|Perfect|Ed Sheeran|Pop|263|986|826
 S003|Bad Habits|Ed Sheeran|Pop|231|875|650
 S004|Blank Space|Taylor Swift|Pop|231|1420|980
 S005|Anti Hero|Taylor Swift|Pop|200|1180|870
@@ -9,7 +9,7 @@ S008|Demons|Imagine Dragons|Rock|177|960|690
 S009|Thunder|Imagine Dragons|Rock|187|1120|790
 S010|Numb|Linkin Park|Rock|185|1900|1300
 S011|In The End|Linkin Park|Rock|216|1840|1240
-S012|Faded|Alan Walker|EDM|212|1754|1190
+S012|Faded|Alan Walker|EDM|212|1756|1191
 S013|Alone|Alan Walker|EDM|161|940|710
 S014|The Spectre|Alan Walker|EDM|193|1320|860
 S015|Titanium|David Guetta|EDM|245|1210|830
