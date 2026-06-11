@@ -222,7 +222,7 @@ void ConsoleUI::renderSidebarAndPlayer() const {
     } else if (i == 13) {
       string opS = getCurrentOS();
       if (opS == "Windows") {
-        right = "  [Enter/E] Select";
+        right = "  [Enter] Select";
       } else
         right = "  [E] Select";
     }
@@ -430,12 +430,15 @@ void ConsoleUI::handleAddSongToPlaylist() {
         pauseScreen();
       } else {
         if (playlistManager.addSongToPlaylist(playlistName, songId, library)) {
-           if (playlistManager.saveToFile(playlistPath)) {
-               cout << "  Success: Song added successfully!\n";
-           } else {
+          if (playlistManager.saveToFile(playlistPath)) {
+            cout << "  Success: Song added successfully!\n";
+          } else {
             cout << "  Song added, but failed to save playlist file.\n";
-           }
-        songId = "";
+          }
+          songId = "";
+        } else {
+          cout << "  Error: Failed to add song. Check if playlist exists and "
+                  "Song ID is correct.\n";
         }
         pauseScreen();
       }
