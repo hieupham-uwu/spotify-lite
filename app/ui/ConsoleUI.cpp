@@ -430,10 +430,12 @@ void ConsoleUI::handleAddSongToPlaylist() {
         pauseScreen();
       } else {
         if (playlistManager.addSongToPlaylist(playlistName, songId, library)) {
-          cout << "  Success: Song added successfully!\n";
-          songId = "";
-        } else {
-          cout << "  Failed. Playlist not found or Song ID invalid.\n";
+           if (playlistManager.saveToFile(playlistPath)) {
+               cout << "  Success: Song added successfully!\n";
+           } else {
+            cout << "  Song added, but failed to save playlist file.\n";
+           }
+        songId = "";
         }
         pauseScreen();
       }
