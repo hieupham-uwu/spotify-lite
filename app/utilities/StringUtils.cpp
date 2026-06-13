@@ -1,4 +1,5 @@
 #include "StringUtils.hpp"
+
 #include <cctype>
 string lowerStr(string s) {
   for (auto& x : s) {
@@ -6,6 +7,7 @@ string lowerStr(string s) {
   }
   return s;
 }
+
 string normalizeDisplayName(const string& s) {
   string result;
   bool previousWasSpace = false;
@@ -28,6 +30,7 @@ string normalizeDisplayName(const string& s) {
 
   return result;
 }
+
 vector<string> trimString(string s, char sep) {
   s = s + sep;
   vector<string> ans;
