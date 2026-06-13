@@ -1,21 +1,22 @@
 #include <iostream>
-
+using namespace std;
 #include "ui/ConsoleUI.hpp"
 
 int main() {
   ConsoleUI app;
-  std::string dataPath = "app/data/songs.txt";
+  string dataPath = "app/data/songs.txt";
+  string playlistPath = "app/data/playlists.txt";
 
-  std::cout << "=========================================\n";
-  std::cout << "      INITIALIZING SPOTIFY LITE...       \n";
-  std::cout << "=========================================\n";
+  cout << "=========================================\n";
+  cout << "      INITIALIZING SPOTIFY LITE...       \n";
+  cout << "=========================================\n";
 
-  if (!app.init(dataPath)) {
-    std::cout << "\n[!] Warning: Could not load song data from: " << dataPath
-              << "\n";
-    std::cout << "    Please verify the file path and format.\n";
-    std::cout << "    Press ENTER to continue with an empty library...";
-    std::cin.get();
+  if (!app.init(dataPath, playlistPath)) {
+    cout << "\n[!] Warning: Could not load song data from: " << dataPath
+         << "\n";
+    cout << "    Please verify the file path and format.\n";
+    cout << "    Press ENTER to continue with an empty library...";
+    cin.get();
   }
 
   app.run();

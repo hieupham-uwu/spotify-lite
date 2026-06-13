@@ -36,9 +36,9 @@ string ConsoleUI::getCurrentOS() const {
 #endif
 }
 
-bool ConsoleUI::init(const string& dataFile) {
+bool ConsoleUI::init(const string& dataFile, const string& playlistFile) {
   filePath = dataFile;
-  playlistPath = "app/data/playlists.txt";
+  playlistPath = playlistFile;
 
   bool ok = library.loadFromFile(dataFile);
 

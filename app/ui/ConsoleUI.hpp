@@ -89,7 +89,7 @@ class ConsoleUI {
 
  public:
   ConsoleUI();
-  bool init(const string& dataFile);
+  bool init(const string& dataFile, const string& playlistFile);
   void run();
 };
 
