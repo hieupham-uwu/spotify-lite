@@ -47,9 +47,31 @@ class HashTable {
   int totalElements;
   int tableSize;
 
-  int hashFunction(const K& key) const {
-    return hash<K>{}(key) % tableSize;
-  }
+  template <typename T>
+int genericHash(const T& key) const {
+    const unsigned char* p = (const unsigned char*)&key;
+    int hashValue = 0;
+
+    for (int i = 0; i < sizeof(T); i++) {
+        hashValue = (hashValue * 31 + p[i]) % tableSize;
+    }
+
+    return hashValue;
+}
+
+int genericHash(const string& key) const {
+    int hashValue = 0;
+
+    for (int i = 0; i < key.length(); i++) {
+        hashValue = (hashValue * 31 + key[i]) % tableSize;
+    }
+
+    return hashValue;
+}
+
+int hashFunction(const K& key) const {
+    return genericHash(key);
+}
 
  public:
   explicit HashTable(int size = 101) : totalElements(0), tableSize(size) {
