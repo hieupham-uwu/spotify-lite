@@ -48,3 +48,10 @@ S047|So What|Miles Davis|Jazz|545|610|340
 S048|Fly Me To The Moon|Frank Sinatra|Jazz|147|850|590
 S049|Moonlight Sonata|Beethoven|Classical|900|430|290
 S050|Spring|Vivaldi|Classical|620|390|250
+S051|La vaguelette|Furina (Hoyo-Mix)|Ballad|288|2540|1980
+S052|Let the Living Beware|Hoyo-Mix|Orchestra|132|1450|920
+S053|Fontaine|Hoyo-Mix|Classical|245|1890|1240
+S054|Rex Incognito|Hoyo-Mix|Traditional|184|2980|2100
+S055|Shirasagi Princess|Hoyo-Mix|Traditional|152|1320|880
+S056|Symphony of Boreal Wind|Hoyo-Mix|Rock|198|1650|1010
+S057|Rhythm from Conspiracies|Hoyo-Mix|Jazz|210|1120|750

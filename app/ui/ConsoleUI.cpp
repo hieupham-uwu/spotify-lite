@@ -229,7 +229,7 @@ void ConsoleUI::renderSidebarAndPlayer() const {
 }
 
 void ConsoleUI::renderFooter() const {
-  cout << "|" << centerText("Student Project - HieuPham UWU", SCREEN_W - 2)
+  cout << "|" << centerText("Student Project - Hieu and Duong", SCREEN_W - 2)
        << "|\n";
   cout << "+" << repeat('-', SCREEN_W - 2) << "+\n";
 }
