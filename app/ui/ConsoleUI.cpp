@@ -48,10 +48,7 @@ bool ConsoleUI::init(const string& dataFile, const string& playlistFile) {
   return ok;
 }
 
-void ConsoleUI::rebuildIndexes() {
-  // ArtistManager tự động trích xuất nghệ sĩ từ MusicLibrary
-  artistManager.buildFromLibrary(library);
-}
+void ConsoleUI::rebuildIndexes() { artistManager.buildFromLibrary(library); }
 
 void ConsoleUI::initMenuItems() {
   menuItems.clear();
@@ -539,7 +536,6 @@ void ConsoleUI::handlePlayPlaylist() {
     return;
   }
 
-  // Convert LinkedList<string> (ID) to LinkedList<Song*>
   LinkedList<Song*> songQueue;
   for (string id : p->songIds) {
     Song* s = library.findById(id);

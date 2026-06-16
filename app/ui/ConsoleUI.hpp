@@ -29,12 +29,10 @@ class ConsoleUI {
 
   string getCurrentOS() const;
 
-  // Các hàm tiện ích nhập xuất
   static int readInt(const string& prompt);
   static string readLine(const string& prompt);
   static int readNavigationKey();
 
-  // Các hàm tiện ích vẽ giao diện
   static void clearScreen();
   static void pauseScreen();
   static string fitText(const string& text, int width);
@@ -42,7 +40,6 @@ class ConsoleUI {
   static string centerText(const string& text, int width);
   static string progressBar(int percent, int width);
 
-  // Vẽ layout
   void initMenuItems();
   void renderHome();
   void renderHeader() const;
@@ -52,7 +49,6 @@ class ConsoleUI {
   void renderSongTable(const vector<Song>& songs, int limit = -1) const;
   vector<Song> getAllSongsVector() const;
 
-  // Handlers - Tích hợp với Backend Services
   void handleShowAllSongs();
   void handleSearchById();
   void handleSearchByTitle();
@@ -71,15 +67,15 @@ class ConsoleUI {
   void handleBackSong();
   void handleLikeCurrentSong();
 
-  // Ranking Handlers (Gọi RankingService)
+  // Ranking Handlers
   void handleTopByPlays();
   void handleTopByLikes();
 
-  // Artist Handlers (Gọi ArtistManager)
+  // Artist Handlers
   void handleShowArtistsAZ();
   void handleSearchSongsByArtist();
 
-  // Recommendation Handlers (Gọi RecommendationService)
+  // Recommendation Handlers
   void handleRecommendByGenre();
   void handleRecommendByCurrentSong();
   void handleHotSongsSuggestion();
