@@ -1,4 +1,4 @@
-S001|Shape of You|Ed Sheeran|Pop|233||954
+S001|Shape of You|Ed Sheeran|Pop|233|321|954
 S002|Perfect|Ed Sheeran|Pop|263|988|826
 S003|Bad Habits|Ed Sheeran|Pop|231|875|650
 S004|Blank Space|Taylor Swift|Pop|231|1420|980
