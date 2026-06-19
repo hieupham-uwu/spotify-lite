@@ -26,7 +26,10 @@ bool MusicLibrary::loadFromFile(const string& fileName) {
 
   while (getline(f, str)) {
     vector<string> loadedSong = trimString(str, '|');
-    if (loadedSong.size() == 7) {
+    if (loadedSong.size() == 7 && !loadedSong[0].empty() &&
+        !loadedSong[1].empty() && !loadedSong[2].empty() &&
+        !loadedSong[3].empty() && !loadedSong[4].empty() &&
+        !loadedSong[5].empty() && !loadedSong[6].empty()) {
       Song song =
           Song(loadedSong[0], loadedSong[1], loadedSong[2], loadedSong[3],
                stoi(loadedSong[4]), stoi(loadedSong[5]), stoi(loadedSong[6]));
