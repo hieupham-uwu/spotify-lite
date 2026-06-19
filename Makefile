@@ -7,11 +7,16 @@ ifeq ($(OS),Windows_NT)
     RM = del /f /q
     RUN = $(TARGET)
     FIX_PATH = $(subst /,\,$1)
+    
+    WINDRES = windres
+    RES_OBJ = resource.o
 else
     TARGET = spotify_lite
     RM = rm -f
     RUN = ./$(TARGET)
     FIX_PATH = $1
+    
+    RES_OBJ = 
 endif
 
 SRCS = app/main.cpp \
@@ -28,14 +33,19 @@ OBJS = $(SRCS:.cpp=.o)
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+$(TARGET): $(OBJS) $(RES_OBJ)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) $(RES_OBJ)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+ifeq ($(OS),Windows_NT)
+$(RES_OBJ): resource.rc
+	$(WINDRES) $< -O coff -o $@
+endif
+
 clean:
-	$(RM) $(call FIX_PATH,$(OBJS)) $(TARGET)
+	$(RM) $(call FIX_PATH,$(OBJS)) $(TARGET) $(RES_OBJ)
 
 run: $(TARGET)
 	$(RUN)
